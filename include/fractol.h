@@ -42,5 +42,7 @@ typedef struct s_fractal
 
 void		fractal_init(t_fractal *fractal);
 int			fractol_clean(t_fractal *fractal, int err);
+void		handle_pixel(int x, int y, t_fractal *fractal);
+void		fractal_render(t_fractal *fractal);
 
 #endif
