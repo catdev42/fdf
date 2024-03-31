@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "fractol.h": "c",
+        "fdf.h": "c"
+    }
+}
