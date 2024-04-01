@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/03/31 21:24:02 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/01 00:20:22 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ runlibmlx:
 	$(MAKE) -C $(MLXDIR)
 
 $(NAME): runlibft runlibmlx $(OBJS) 
-	gcc *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	gcc poll.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+
+#	gcc *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 #	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:

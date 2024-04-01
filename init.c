@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/03/31 20:08:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:53:03 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,11 @@ void	fractal_init(t_fractal *fractal)
 		fractol_clean(fractal, 1);
 	}
 	// events_init(fractal); //TODO
-	// data_init(fractal); //TODO
+	data_init(fractal); //TODO
+}
+
+void data_init(t_fractal * fractal)
+{
+	fractal->escape_value = 4; // 2 ^ 2
+	fractal->iter_definition = 42;
 }
