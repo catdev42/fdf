@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/01 02:25:47 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:32:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	my_pixel_put(int x, int y, t_image *img, int color)
 	int	offset;
 
 	offset = (y * img->line_len) + (x * (img->bpp / 8));
+	*(unsigned int *)(img->pixels_ptr + offset) = color;
+	
 }
 void	handle_pixel(int x, int y, t_fractal *fractal)
 {
@@ -57,10 +59,13 @@ void	handle_pixel(int x, int y, t_fractal *fractal)
 		{
 			// color is direct relationship between number of iterations and color value
 			color = map(i, BLACK, WHITE, 0, fractal->iter_definition);
-			// my_pixel_put(); // TODO
+			my_pixel_put(x, y, &fractal->img, color);
 			return ;
 		}
+		i++;
 	}
+	//if we are within the mandelbrot set, put one color pixel
+	my_pixel_put(x, y, &fractal->img, PURPLE);
 }
 
 void	fractal_render(t_fractal *fractal)
