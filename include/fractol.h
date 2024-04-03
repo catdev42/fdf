@@ -3,6 +3,7 @@
 
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
+# include <X11/X.h>
 # include <math.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -66,6 +67,9 @@ typedef struct s_fractal
 	double escape_value; // hypotenuse
 	int iter_definition; // number of iterations
 							// - tied with quality and render speed
+	double	shift_x;
+	double	shift_y;
+	int		zoom;
 }			t_fractal;
 
 /*INIT*/
@@ -80,10 +84,14 @@ void		fractal_render(t_fractal *fractal);
 
 /*MATH UTILS*/
 // double		map(double unscaled_num, double n_min, double n_max,
-			// double o_min,
+// double o_min,
 // 				double o_max);
 double		map(double unscaled_num, double new_min, double new_max,
 				double old_min, double old_max);
 t_complex	square_complex(t_complex z);
 t_complex	sum_complex(t_complex z1, t_complex z2);
+
+/*EVENTS*/
+int			key_handler(int keysym, t_fractal *fractal);
+int			close_handler(t_fractal *fractal);
 #endif

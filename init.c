@@ -6,30 +6,34 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 02:18:49 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/03 20:32:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/fdf.h"
 #include "./include/fractol.h"
 
-void data_init(t_fractal * fractal)
+void	data_init(t_fractal *fractal)
 {
 	fractal->escape_value = 4; // 2 ^ 2
 	fractal->iter_definition = 42;
-	// fractal->shift_x = 0.0;
-	// fractal->shift_y = 0.0;void data_init(t_fractal * fractal)
-{
-	fractal->escape_value = 4; // 2 ^ 2
-	fractal->iter_definition = 42;
-	// fractal->shift_x = 0.0;
-	// fractal->shift_y = 0.0;
-	// // zoom factor
-	// fractal->zoom = 1.0;
+	fractal->shift_x = 0.0;
+	fractal->shift_y = 0.0;
+	// zoom factor
+	fractal->zoom = 1.0;
 }
 
-	// // zoom factor
-	// fractal->zoom = 1.0;
+static void	events_init(t_fractal *fractal)
+{
+	mlx_hook(fractal->mlx_window, 
+		KeyPress, 
+		KeyPressMask, 
+		key_handler, 
+		fractal);
+	// mlx_hook(fractal->mlx_window, ButtonPress, ButtonPressMask, mouse_handler,
+	// 	fractal);
+	mlx_hook(fractal->mlx_window, DestroyNotify, StructureNotifyMask,
+		close_handler, fractal);
 }
 
 void	fractal_init(t_fractal *fractal)
@@ -60,7 +64,6 @@ void	fractal_init(t_fractal *fractal)
 		mlx_destroy_display(fractal->mlx_connection);
 		fractol_clean(fractal, 1);
 	}
-	// events_init(fractal); //TODO
-	data_init(fractal); //TODO
+	events_init(fractal); // TODO
+	data_init(fractal);   // TODO
 }
-

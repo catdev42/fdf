@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/03/31 21:25:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:43:31 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,17 @@ int	main(int argc, char **argv)
 		// //2)
 		fractal_render(&fractal);
 		// //3)
+	
 		mlx_loop(fractal.mlx_connection);
 	}
 	else
 	{
+
 		ft_putstr_fd(ERROR_MESSAGE, 2);
 		exit(EXIT_FAILURE);
 	}
 }
+
 
 // int	main(void)
 // {

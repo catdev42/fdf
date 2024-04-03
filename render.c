@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 02:20:19 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/03 20:26:43 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	handle_pixel(int x, int y, t_fractal *fractal)
 	z.x = 0.0;
 	z.y = 0.0;
 	// starting pixel coordinated x & y scaled from canvas size
-	c.x = map((double)x, -2, 2, 0, WIDTH - 1);
-	c.y = map((double)y, 2, -2, 0, HEIGHT - 1);
+	c.x = map((double)x, -2, 2, 0, WIDTH - 1) + fractal->shift_x;
+	c.y = map((double)y, 2, -2, 0, HEIGHT - 1) + fractal->shift_y;
 	// how many times do we want to iterate x^2 + c
 	// to check if the point escaped
 	while (i < fractal->iter_definition) // TODO
