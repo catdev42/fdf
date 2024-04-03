@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/04/01 23:10:59 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/03 02:18:57 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ MLXDIR	= ./minilibx-linux
 
 HEADERS 	:= ./include
 OBJDIR		:= ./obj
-SRC     	:= main.c
+SRC     	:= math_utils.c render.c clean.c init.c main.c
 OBJS     	:= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC      	:= cc
@@ -49,10 +49,10 @@ runlibmlx:
 	$(MAKE) -C $(MLXDIR)
 
 $(NAME): runlibft runlibmlx $(OBJS) 
-	gcc poll.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	gcc *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 #	gcc *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-#	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+# $(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
