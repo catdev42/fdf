@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 20:32:18 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:17:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	events_init(t_fractal *fractal)
 		KeyPressMask, 
 		key_handler, 
 		fractal);
-	// mlx_hook(fractal->mlx_window, ButtonPress, ButtonPressMask, mouse_handler,
-	// 	fractal);
+	mlx_hook(fractal->mlx_window, ButtonPress, ButtonPressMask, mouse_handler,
+		fractal);
 	mlx_hook(fractal->mlx_window, DestroyNotify, StructureNotifyMask,
 		close_handler, fractal);
 }

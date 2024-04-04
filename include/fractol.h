@@ -67,9 +67,9 @@ typedef struct s_fractal
 	double escape_value; // hypotenuse
 	int iter_definition; // number of iterations
 							// - tied with quality and render speed
+	double	zoom;
 	double	shift_x;
 	double	shift_y;
-	int		zoom;
 }			t_fractal;
 
 /*INIT*/
@@ -94,4 +94,5 @@ t_complex	sum_complex(t_complex z1, t_complex z2);
 /*EVENTS*/
 int			key_handler(int keysym, t_fractal *fractal);
 int			close_handler(t_fractal *fractal);
+int			mouse_handler(int button, int x, int y, t_fractal *fractal);
 #endif

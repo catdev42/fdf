@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 20:35:07 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:49:57 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,39 @@ int	key_handler(int keysym, t_fractal *fractal)
 		fractal->shift_y -= 0.5;
 	else if (keysym == XK_Down)
 		fractal->shift_y += 0.5;
-	else if (keysym == XK_plus)
+	else if (keysym == XK_p)
 		fractal->iter_definition += 10;
-	else if (keysym == XK_minus)
+	else if (keysym == XK_m)
 		fractal->iter_definition -= 10;
 	fractal_render(fractal);
 	return (0);
 }
-// int	mouse_handler(int button,t_fractal *fractal)
-// {
-// }
+
+// int
+//        mlx_mouse_hook ( void *win_ptr, int (*funct_ptr)(), void *param );
+//         mouse_hook(int button,int x,int y,void *param);
+int	mouse_handler(int button, int x, int y, t_fractal *fractal)
+{
+	// up
+	if (button == Button5)
+	{
+		fractal->zoom *= 1.1;
+		fractal->shift_x += (x - (WIDTH/2))/800*(fractal->zoom*2);
+		fractal->shift_y += (y - (HEIGHT/2))/800*(fractal->zoom*2);
+	}
+	else if (button == Button4)
+	{
+		fractal->zoom *= 0.9;
+		fractal->shift_x += (x - (WIDTH/2))/800*(fractal->zoom*2);
+		fractal->shift_y += (y - (HEIGHT/2))/800*(fractal->zoom*2);
+	}
+	printf("x = %i, y = %i \n", x, y);
+		printf("fractal->shift_x = %f, fractal->shift_y = %f \n", fractal->shift_x, fractal->shift_y);
+
+	// refresh
+	fractal_render(fractal);
+	return (0);
+}
 int	close_handler(t_fractal *fractal)
 {
 	mlx_destroy_image(fractal->mlx_connection, fractal->img.img_ptr);

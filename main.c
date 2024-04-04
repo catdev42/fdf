@@ -6,15 +6,13 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 19:43:31 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:31:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/fdf.h"
 #include "./include/fractol.h"
 #include <stdio.h>
-
-
 
 int	main(int argc, char **argv)
 {
@@ -30,17 +28,33 @@ int	main(int argc, char **argv)
 		// //2)
 		fractal_render(&fractal);
 		// //3)
-	
 		mlx_loop(fractal.mlx_connection);
 	}
 	else
 	{
-
 		ft_putstr_fd(ERROR_MESSAGE, 2);
 		exit(EXIT_FAILURE);
 	}
 }
 
+int	fractol_clean(t_fractal *fractal, int err)
+{
+	if (fractal->img.img_ptr)
+		mlx_destroy_image(fractal->mlx_connection, fractal->img.img_ptr);
+	if (fractal->mlx_window)
+		mlx_destroy_window(fractal->mlx_connection, fractal->mlx_window);
+	if (fractal->mlx_connection)
+	{
+		mlx_destroy_display(fractal->mlx_connection);
+		free(fractal->mlx_connection);
+	}
+	if (err == 1)
+	{
+		perror("Problems with malloc");
+		return (1);
+	}
+	return (0);
+}
 
 // int	main(void)
 // {
