@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/04 16:41:18 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/06 02:44:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 	c is the actual point
 	(thoughts so each point recursively creates other points?)
 
+	JULIA
+	z = pixel_point + constant
+
 */
 void	my_pixel_put(int x, int y, t_image *img, int color)
 {
@@ -30,6 +33,21 @@ void	my_pixel_put(int x, int y, t_image *img, int color)
 	offset = (y * img->line_len) + (x * (img->bpp / 8));
 	*(unsigned int *)(img->pixels_ptr + offset) = color;
 }
+
+static void	mandel_vs_julia(t_complex *z, t_complex *c, t_fractal *fractal)
+{
+	if (!ft_strncmp(fractal->name, "julia", 5))
+	{
+		c->x = fractal->julia_x;
+		c->y = fractal->julia_y;
+	}
+	else
+	{
+		c->x = z->x;
+		c->y = z->y;
+	}
+}
+
 void	handle_pixel(int x, int y, t_fractal *fractal)
 {
 	t_complex	z;
@@ -39,13 +57,15 @@ void	handle_pixel(int x, int y, t_fractal *fractal)
 
 	i = 0;
 	// 1st iteration
-	z.x = 0.0;
-	z.y = 0.0;
+	// z.x = 0.0;
+	// z.y = 0.0;
 	// starting pixel coordinated x & y scaled from canvas size
-	c.x = (map((double)x, -2, 2, 0, WIDTH - 1) * fractal->zoom)
-		+ (fractal->shift_x)* fractal->zoom;
-	c.y = (map((double)y, 2, -2, 0, HEIGHT - 1) * fractal->zoom)
-		+ (fractal->shift_y)* fractal->zoom;
+	z.x = (map((double)x, -2, 2, 0, WIDTH - 1) * fractal->zoom)
+		+ (fractal->shift_x) * fractal->zoom;
+	z.y = (map((double)y, 2, -2, 0, HEIGHT - 1) * fractal->zoom)
+		+ (fractal->shift_y) * fractal->zoom;
+	// very tricky function that redistributes variables to the correct place
+	mandel_vs_julia(&z, &c, fractal);
 	// how many times do we want to iterate x^2 + c
 	// to check if the point escaped
 	while (i < fractal->iter_definition) // TODO
@@ -59,7 +79,7 @@ void	handle_pixel(int x, int y, t_fractal *fractal)
 		if (((z.x * z.x) + (z.y * z.y)) > fractal->escape_value)
 		{
 			// color is direct relationship between number of iterations and color value
-			color = map(i, 0x000000, 0xFFFFFF, 0, fractal->iter_definition);
+			color = map(i, 0x0000FF, 0xFF0000, 0, fractal->iter_definition);
 			my_pixel_put(x, y, &fractal->img, color);
 			return ;
 		}

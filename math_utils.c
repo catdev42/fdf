@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/03 01:22:00 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:26:57 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 // 	return (nnum);
 // }
 
-double map(double unscaled_num, double new_min, double new_max, double old_min, double old_max)
+double	map(double unscaled_num, double new_min, double new_max, double old_min,
+		double old_max)
 {
-    return (new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min) + new_min;
+	return ((new_max - new_min) * (unscaled_num - old_min) / (old_max - old_min)
+		+ new_min);
 }
 
 /*SUM_COMLEX is basically vector addition*/
@@ -49,4 +51,34 @@ t_complex	square_complex(t_complex z)
 	result.x = (z.x * z.x) - (z.y * z.y);
 	result.y = 2 * z.x * z.y;
 	return (result);
+}
+
+double	atodbl(char *s, t_fractal * fractal)
+{
+	long	integer;
+	double	fractional;
+	double	pow;
+	int		sign;
+
+	sign = +1;
+	pow = 1;
+	integer = 0;
+	fractional = 0;
+	while ((*s >= 9 && *s <= 13) || *s == 32)
+		s++;
+	while (*s == '+' || *s == '-')
+		if ('-' == *s++)
+			sign = -sign;
+	while (*s != '.' && *s && ft_isdigit(*s))
+		integer = integer * 10 + (*s++ - 48);
+	if (*s == '.')
+		s++;
+	while (*s && ft_isdigit(*s))
+	{
+		pow = pow / 10;
+		fractional = fractional + (*s++ - 48) * pow;
+	}
+	if (*s && !ft_isdigit(*s))
+	fractol_clean(fractal, 2);
+	return ((integer + fractional) * sign);
 }
