@@ -6,14 +6,13 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/06 02:20:41 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/07 22:13:35 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/fdf.h"
+// #include "./include/fdf.h"
 #include "./include/fractol.h"
 
-// int	key_handler(int keysym, t_fractal *fractal)
 int	key_handler(int keysym, t_fractal *fractal)
 {
 	if (keysym == XK_Escape)
