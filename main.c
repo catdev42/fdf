@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/08 22:44:53 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/09 00:55:24 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		ft_putstr_fd(ERROR_MESSAGE, 2);
 		return (1);
 	}
-	//INIT
+	// INIT
 	fdf.name = argv[1];
 	fdf_init(&fdf);
 	// fd = open(argv[1], O_RDONLY);
@@ -37,8 +37,22 @@ int	main(int argc, char **argv)
 		data = get_next_line(fd);
 	}
 }
-
-//ADJUST EXTRA TO CLEAN FDF // TODO
+static void	clean_points(t_fdf *fdf)
+{
+	if (fdf->points.x)
+		free(fdf->points.x);
+	if (fdf->points.y)
+		free(fdf->points.y);
+	if (fdf->points.z)
+		free(fdf->points.z);
+	if (fdf->points.iso_x)
+		free(fdf->points.iso_x);
+	if (fdf->points.iso_y)
+		free(fdf->points.iso_y);
+	if (fdf->points.color)
+		free(fdf->points.color);
+}
+// ADJUST EXTRA TO CLEAN FDF // TODO
 int	fdf_clean(t_fdf *fdf, int err)
 {
 	if (fdf && fdf->img.img_ptr)
@@ -50,15 +64,17 @@ int	fdf_clean(t_fdf *fdf, int err)
 		mlx_destroy_display(fdf->mlx_connection);
 		free(fdf->mlx_connection);
 	}
-	if (err == 1)
+	if (fdf->points.x)
+		clean_points(fdf);
+	if (err)
 	{
-		perror("Problems with malloc");
+		if (err == 1)
+			perror("Problems with malloc");
+		else if (err == 2)
+			ft_putstr_fd(ERROR_MESSAGE, 2);
+		else if (err == 3)
+			perror("Problems with reading file or it is empty");
 		exit(1);
-	}
-	if (err == 2)
-	{
-		ft_putstr_fd(ERROR_MESSAGE, 2);
-		exit(EXIT_FAILURE);
 	}
 	return (0);
 }

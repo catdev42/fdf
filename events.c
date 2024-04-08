@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/08 22:49:07 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/09 01:01:44 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ int	close_handler(t_fdf *fdf)
 	mlx_destroy_display(fdf->mlx_connection);
 	free(fdf->mlx_connection);
 	exit(EXIT_SUCCESS);
+}
+
+void	reset(t_fdf *fdf)
+{
+	fdf->angle = sqrt(3) / 3;
+	fdf->shift_x = 0;
+	fdf->shift_y = 0;
+	fdf->zoom = 0;
+	render_pixels(fdf); // TODO
 }
 
 

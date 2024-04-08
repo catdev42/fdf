@@ -16,12 +16,12 @@
 
 typedef struct s_points
 {
-	double		x;
-	double		y;
-	double		z;
-	uint32_t	color;
-	double		iso_x;
-	double		iso_y;
+	double		*x;
+	double		*y;
+	double		*z;
+	uint32_t	*color;
+	double		*iso_x;
+	double		*iso_y;
 }				t_points;
 
 typedef struct s_image
@@ -34,8 +34,10 @@ typedef struct s_image
 }				t_image;
 
 /*
- * the map contains all main manipulations
- *to fix the points to the canvas as well as points and
+ * the map contains everything
+ * all user manipulations
+ * points
+ * image
  */
 typedef struct s_fdf
 {
@@ -60,8 +62,6 @@ typedef struct s_fdf
 	double		angle;
 }				t_fdf;
 
-/**********FUN***********/
-
 /******main.c********/
 int				fdf_clean(t_fdf *fdf, int err);
 
@@ -69,13 +69,14 @@ int				fdf_clean(t_fdf *fdf, int err);
 int				close_handler(t_fdf *fdf);
 int				mouse_handler(int button, int x, int y, t_fdf *fdf);
 int				key_handler(int keysym, t_fdf *fdf);
+void			reset(t_fdf *fdf);
 
 /******init.c********/
 int				fdf_init(t_fdf *fdf);
-void			reset(t_fdf *fdf);
+int				get_map_size(int fd, t_fdf *fdf);
 
 /******parse.c********/
-int				parse_data(char *data, t_fdf fdf);
+int				parse_data(char *data, t_fdf *fdf);
 
 /******math_utils.c********/
 double			map(double unscaled_num, double new_min, double new_max,
