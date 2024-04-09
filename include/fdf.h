@@ -79,7 +79,7 @@ int				get_map_size(int fd, t_fdf *fdf);
 int				parse_data(char *data, t_fdf *fdf);
 
 /******math_utils.c********/
-double			map(double unscaled_num, double new_min, double new_max,
-					double old_min, double old_max);
+double	map(double unscaled_num,  double original_min,
+		double original_max,double target_min, double target_max);
 
 #endif
