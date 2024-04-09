@@ -78,6 +78,7 @@ typedef struct s_fractal
 /*INIT*/
 void		fractal_init(t_fractal *fractal);
 void		data_init(t_fractal *fractal);
+
 /*CLEAN*/
 int			fractol_clean(t_fractal *fractal, int err);
 

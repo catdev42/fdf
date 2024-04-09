@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_utils.c                                       :+:      :+:    :+:   */
+/*   ft_ahextoi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/09 22:03:26 by myakoven         ###   ########.fr       */
+/*   Created: 2024/04/09 21:11:38 by myakoven          #+#    #+#             */
+/*   Updated: 2024/04/09 21:22:05 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/fdf.h"
+#include "libft.h"
 
 static int	hex_to_int(char c);
-
-/*
- * take the value that starts with original min,
- * divide by original range to get a percentage, multiply by target range,
- * add target min
- */
-double	map(double unscaled_num, double original_min, double original_max,
-		double target_min, double target_max)
-{
-	return ((unscaled_num - original_min) / (original_max - original_min)
-		* (target_max - target_min) + target_min);
-}
 
 int	ft_ahextoi(const char *nptr)
 {
 	int	num;
 	int	sign;
 	int	i;
+	int	hextoint;
 
 	num = 0;
 	sign = 1;
@@ -47,24 +36,28 @@ int	ft_ahextoi(const char *nptr)
 		i += 2;
 	else
 		return (0);
-	while ((nptr[i] >= '0' && nptr[i] <= '9') || (nptr[i] >= 'A'
-			&& nptr[i] <= 'F') || (nptr[i] >= 'a' && nptr[i] <= 'f'))
-		num = num * 16 + hex_to_int(nptr[i++]);
+	while (ft_strchr(nptr))
+	{
+		hextoint = hex_to_int(nptr[i], "0123456789abcdef", "0123456789ABCDEF");
+		if (hextoint == -1)
+			return (0);
+		num = num * 16 + hextoint;
+		i++;
+	}
 	return (num * sign);
 }
 
-static int	hex_to_int(char c)
+static int	hex_to_int(char c, char *hex_lower, char *hex_upper)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < 16)
 	{
-		if ("0123456789ABCDEF"[i] == c)
-			return (i);
-		if ("0123456789abcdef"[i] == c)
+		if (c == hex_lower || c == hex_upper)
 			return (i);
 		i++;
 	}
 	return (-1);
+	// on error return -1
 }

@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/04/06 13:55:57 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/09 18:00:37 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,3 +67,5 @@ fclean: clean
 
 
 re: fclean all
+
+.PHONY: all clean fclean re

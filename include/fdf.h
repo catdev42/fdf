@@ -76,10 +76,10 @@ int				fdf_init(t_fdf *fdf);
 int				get_map_size(int fd, t_fdf *fdf);
 
 /******parse.c********/
-int				parse_data(char *data, t_fdf *fdf);
+int				parse_data(int fd, t_fdf *fdf);
 
 /******math_utils.c********/
-double	map(double unscaled_num,  double original_min,
-		double original_max,double target_min, double target_max);
-
+double			map(double unscaled_num, double original_min,
+					double original_max, double target_min, double target_max);
+int				ft_ahextoi(const char *nptr);
 #endif

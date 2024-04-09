@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/09 00:55:24 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/09 21:28:59 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,20 @@ int	main(int argc, char **argv)
 	fdf.name = argv[1];
 	fdf_init(&fdf);
 	// fd = open(argv[1], O_RDONLY);
-	fd = open("./text_maps/simple.fdf", O_RDONLY);
+	fd = open("./test_maps/simple.fdf", O_RDONLY);
 	if (fd == 0)
 		return (ft_clean(NULL, 1));
-	data = get_next_line(fd);
-	while (data)
-	{
-		parse_data(data, &fdf);
-		data = get_next_line(fd);
-	}
+	parse_data(fd, &fdf);
+	// data = get_next_line(fd);
+	// while (data)
+	// {
+	// 	parse_data(data, &fdf);
+	// 	data = get_next_line(fd);
+	// }
 }
+
+/******CLEANING******/
+
 static void	clean_points(t_fdf *fdf)
 {
 	if (fdf->points.x)
@@ -74,6 +78,8 @@ int	fdf_clean(t_fdf *fdf, int err)
 			ft_putstr_fd(ERROR_MESSAGE, 2);
 		else if (err == 3)
 			perror("Problems with reading file or it is empty");
+		else if (err == 4)
+			ft_putstr_fd("Error: map format issue", 2);
 		exit(1);
 	}
 	return (0);
