@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 20:59:16 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:30:13 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ static int	hex_to_int(char c)
 
 static int	calculate_isometric(t_fdf *fdf)
 {
-	
+	int i;
+	i = 0;
+	while (i < fdf->x_len & fdf->y_len)
+	{
+		fdf->points.iso_x[i] = (fdf->points.x[i] - fdf->points.y[i])
+			* cos(fdf->angle);
+		fdf->points.iso_y[i] = (fdf->points.x[i] + fdf->points.y[i])
+			* sin(fdf->angle) - fdf->points.z[i];
+		i++;
+	}
 	return (1);
 }

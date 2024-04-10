@@ -1,0 +1,2 @@
+pts->x[i] = (previous_x - previous_y) * cos(user_view->angle);
+	pts->y[i] = -pts->z[i] + (previous_x + previous_y) * sin(user_view->angle);
