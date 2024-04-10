@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 14:45:01 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:59:16 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,10 @@ static int	hex_to_int(char c)
 		i++;
 	}
 	return (-1);
+}
+
+static int	calculate_isometric(t_fdf *fdf)
+{
+	
+	return (1);
 }

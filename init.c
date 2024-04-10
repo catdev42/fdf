@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 16:53:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:13:06 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static void	data_init(t_fdf *fdf)
 	fdf->x_len = 0;
 	fdf->y_len = 0;
 	fdf->total_points = 0;
-	fdf->z_min = 0;
-	fdf->z_max = 0;
+	fdf->z_min = INT_MAX;
+	fdf->z_max = INT_MIN;
 	fdf->z_range = 0;
 	// double
 	fdf->shift_x = 0.0;
@@ -75,7 +75,7 @@ static void	data_init(t_fdf *fdf)
 	fdf->points.color = NULL;
 	fdf->points.iso_x = NULL;
 	fdf->points.iso_y = NULL;
-	// fdf->angle = atan(1 /2);
+	fdf->angle = atan(1 /2);
 	// map sizes
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)

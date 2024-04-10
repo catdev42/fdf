@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 20:52:02 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:17:48 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	parse_line(char *dataline, t_fdf *fdf, int index)
 		fdf->points.y[i] = y;
 		if (!get_color(alpha_dataline_split[x], i, fdf))
 		{
-			free(alpha_dataline_split);
+			free_split(alpha_dataline_split);
 			fdf_clean(fdf, 1);
 		}
 		x++;
@@ -98,12 +98,11 @@ static int	get_color(const char *single_map_item, int index, t_fdf *fdf)
 			return (0);
 		fdf->points.z[index] = atoi(color_data_split[0]);
 		fdf->points.color[index] = ahextoi(color_data_split[1]);
-		free(color_data_split);
+		free_split(color_data_split);
 	}
-	return (1);
-}
-
-static int	calculate_isometric(t_fdf *fdf)
-{
+	if (fdf->points.z[index] < fdf->z_min)
+		fdf->z_min = fdf->points.z[index];
+	if (fdf->points.z[index] > fdf->z_max)
+		fdf->z_max = fdf->points.z[index];
 	return (1);
 }

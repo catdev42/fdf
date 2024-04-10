@@ -66,6 +66,7 @@ typedef struct s_fdf
 
 /******main.c********/
 int				fdf_clean(t_fdf *fdf, int err);
+void			free_split(char **arr);
 
 /******events.c********/
 int				close_handler(t_fdf *fdf);
