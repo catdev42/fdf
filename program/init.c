@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 15:46:08 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:53:24 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	fdf_init(t_fdf *fdf)
 	fdf->mlx_connection = mlx_init();
 	if (!fdf->mlx_connection)
 		fdf_clean(fdf, 1);
-	fdf->mlx_window = mlx_new_window(fdf->mlx_connection,WIDTH, HEIGHT, fdf->name);
+	fdf->mlx_window = mlx_new_window(fdf->mlx_connection, WIDTH, HEIGHT,
+			fdf->name);
 	if (!fdf->mlx_window)
 		fdf_clean(fdf, 1);
 	fdf->img.img_ptr = mlx_new_image(fdf->mlx_connection, WIDTH, HEIGHT);
@@ -69,16 +70,12 @@ static void	data_init(t_fdf *fdf)
 	fdf->zoom = 1.0;
 	fdf->angle = 30;
 	fdf->points.x = NULL;
-		fdf->points.y = NULL;
-
+	fdf->points.y = NULL;
 	fdf->points.z = NULL;
 	fdf->points.color = NULL;
 	fdf->points.iso_x = NULL;
-		fdf->points.iso_y = NULL;
-
-
-		// fdf->angle = atan(1 /2);
-
+	fdf->points.iso_y = NULL;
+	// fdf->angle = atan(1 /2);
 	// map sizes
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)
@@ -115,4 +112,3 @@ static int	get_map_size(int fd, t_fdf *fdf)
 		fdf_clean(fdf, 3);
 	return (1);
 }
-
