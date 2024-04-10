@@ -6,15 +6,15 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 17:58:39 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:52:02 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
 
-static int	parse_line(char *dataline, t_fdf *fdf, int *index);
+static int	parse_line(char *dataline, t_fdf *fdf, int index);
 static int	calculate_isometric(t_fdf *fdf);
-static int	get_color(char *single_map_item, int index, t_fdf *fdf);
+static int	get_color(const char *single_map_item, int index, t_fdf *fdf);
 
 /*Malloc
  *Open File
@@ -42,41 +42,47 @@ int	parse_data(int fd, t_fdf *fdf)
 		dataline = get_next_line(fd);
 		if (!dataline)
 			break ;
-		index = parse_line(dataline, fdf, &index);
+		index = parse_line(dataline, fdf, index);
 	}
 	calculate_isometric(fdf);
 	return (1);
 }
 
-static int	parse_line(char *dataline, t_fdf *fdf, int *index)
+static int	parse_line(char *dataline, t_fdf *fdf, int index)
 {
 	int		x;
 	int		y;
 	char	**alpha_dataline_split;
+	int		i;
 
+	i = index;
+	// while (fdf->points.x[index])
+	// 	index++;
 	x = 0;
-	y = *index / fdf->x_len + 1;
-	if (ft_strlen(dataline) - 1 == '\n')
+	y = 0;
+	if (fdf->points.y[0])
+		y = fdf->points.y[i] + 1;
+	if (dataline[ft_strlen(dataline) - 1] == '\n')
 		dataline[ft_strlen(dataline) - 1] = 0;
 	alpha_dataline_split = ft_split(dataline, ' ');
 	if (!alpha_dataline_split)
 		fdf_clean(fdf, 1);
 	while (alpha_dataline_split[x])
 	{
-		fdf->points.x[*index] = x;
-		fdf->points.y[*index] = y;
-		if (!get_color(alpha_dataline_split[x], *index, fdf))
+		fdf->points.x[i] = x;
+		fdf->points.y[i] = y;
+		if (!get_color(alpha_dataline_split[x], i, fdf))
 		{
 			free(alpha_dataline_split);
 			fdf_clean(fdf, 1);
 		}
-		free(alpha_dataline_split);
 		x++;
-		*index++;
+		i++;
 	}
+	return (i);
 }
 
-static int	get_color(char *single_map_item, int index, t_fdf *fdf)
+static int	get_color(const char *single_map_item, int index, t_fdf *fdf)
 {
 	char	**color_data_split;
 
@@ -92,8 +98,8 @@ static int	get_color(char *single_map_item, int index, t_fdf *fdf)
 			return (0);
 		fdf->points.z[index] = atoi(color_data_split[0]);
 		fdf->points.color[index] = ahextoi(color_data_split[1]);
+		free(color_data_split);
 	}
-	free(color_data_split);
 	return (1);
 }
 
