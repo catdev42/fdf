@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 14:50:55 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:08:37 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	main(int argc, char **argv)
 {
+
 	t_fractal	fractal;
 
 	if ((argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10)) || (argc == 4
