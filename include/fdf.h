@@ -8,6 +8,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 
 // # define ERROR_MESSAGE "Please enter \n\t\"./fdf mapname\" or \n\t\"./fdf mapname <width> <height>\"\n"

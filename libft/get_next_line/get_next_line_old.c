@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:02:39 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 17:44:13 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:33:58 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*get_next_line(int fd)
 
 char	*ft_read(int fd, char *line, char *buffer)
 {
-	size_t			i;
 	long long int	bytes_read;
 	char			*newline;
 
@@ -50,18 +49,16 @@ char	*ft_read(int fd, char *line, char *buffer)
 		bytes_read = 0;
 	while (bytes_read > 0)
 	{
+		ft_bzero(buffer, BUFFER_SIZE);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			return (NULL);
-		if (bytes_read < BUFFER_SIZE && bytes_read >= 0)
-		{
-			i = bytes_read;
-			while (i < BUFFER_SIZE)
-				buffer[i++] = 0;
-		}
 		newline = ft_strjoinbuff(line, buffer);
 		if (!newline || bytes_read == -1)
+		{
+			free(line);
 			return (NULL);
+		}
 		free(line);
 		line = newline;
 		if (ft_strchr(line, '\n'))
@@ -70,7 +67,7 @@ char	*ft_read(int fd, char *line, char *buffer)
 	return (line);
 }
 
-/* take substr and clean up buffer to be without prev line*/
+/* take newline substr and clean up buffer to be without prev line*/
 char	*ft_takeline(char *line, char *buffer)
 {
 	size_t	i;
@@ -104,38 +101,27 @@ char	*ft_strjoinbuff(char *s1, char const *buff)
 	size_t	j;
 	char	*string;
 
+	len_s1 = 0;
+	lenbuff = 0;
 	if (s1)
 		len_s1 = ft_strlen(s1);
-	else
-		len_s1 = 0;
 	if (buff)
 		lenbuff = ft_strlen(buff);
-	else
-		lenbuff = 0;
-	i = 0;
+	i = -1;
 	j = 0;
 	string = malloc(sizeof(char) * (len_s1 + BUFFER_SIZE) + 1);
 	if (!(string))
-	{
-		free(s1);
 		return (NULL);
-	}
-	while (i < (len_s1))
-	{
+	while (++i < (len_s1))
 		string[i] = s1[i];
-		i++;
-	}
-	while (i < (len_s1 + lenbuff))
-	{
-		string[i++] = buff[j++];
-	}
+	while (++i < (len_s1 + lenbuff))
+		string[i] = buff[j++];
 	string[i] = 0;
 	return (string);
 }
 
 char	*ft_clearfree(char **buffer, char *line)
 {
-	// ft_bzero(buffer, BUFFER_SIZE);
 	free(*buffer);
 	*buffer = NULL;
 	if (!line)
@@ -145,6 +131,16 @@ char	*ft_clearfree(char **buffer, char *line)
 }
 
 /*
+replaced by ft_bzero
+	// ft_bzero(buffer, BUFFER_SIZE);
+
+if (bytes_read < BUFFER_SIZE && bytes_read >= 0)
+		{
+			i = bytes_read;
+			while (i < BUFFER_SIZE)
+				buffer[i++] = 0;
+		}
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;

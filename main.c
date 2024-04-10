@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 15:41:57 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:55:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ int	main(int argc, char **argv)
 	// INIT
 	fdf.name = argv[1];
 	fdf_init(&fdf);
-	mlx_loop(fdf.mlx_connection);
 	// fd = open(argv[1], O_RDONLY);
 	fd = open("./test_maps/simple.fdf", O_RDONLY);
 	if (fd == 0)
 		return (fdf_clean(&fdf, 1));
-	// parse_data(fd, &fdf);
+	parse_data(fd, &fdf);
 	close(fd);
 	// data = get_next_line(fd);
 	// while (data)
@@ -38,6 +37,8 @@ int	main(int argc, char **argv)
 	// 	parse_data(data, &fdf);
 	// 	data = get_next_line(fd);
 	// }
+		mlx_loop(fdf.mlx_connection);
+
 }
 
 /******CLEANING******/
