@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 21:16:50 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/18 23:17:20 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
+	t_line	line;
 	int		fd;
 
 	if (argc != 2 && argc != 4)
@@ -37,8 +38,7 @@ int	main(int argc, char **argv)
 	// 	parse_data(data, &fdf);
 	// 	data = get_next_line(fd);
 	// }
-		mlx_loop(fdf.mlx_connection);
-
+	mlx_loop(fdf.mlx_connection);
 }
 
 /******CLEANING******/
