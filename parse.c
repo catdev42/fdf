@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/09 22:05:05 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/13 21:56:41 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,4 @@ static int	get_color(char *single_map_item, int index, t_fdf *fdf)
 
 static int	calculate_isometric(t_fdf *fdf)
 {
-	
 }
