@@ -8,11 +8,13 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
 
+// # define ERROR_MESSAGE "Please enter \n\t\"./fdf mapname\" or \n\t\"./fdf mapname <width> <height>\"\n"
+# define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <value_1> <value_2>\"\n"
 # define WIDTH 800
 # define HEIGHT 800
-# define ERROR_MESSAGE "Please enter \n\t\"./fdf mapname\" or \n\t\"./fdf mapname <width> <height>\"\n"
 
 typedef struct s_points
 {
@@ -64,6 +66,7 @@ typedef struct s_fdf
 
 /******main.c********/
 int				fdf_clean(t_fdf *fdf, int err);
+void			free_split(char **arr);
 
 /******events.c********/
 int				close_handler(t_fdf *fdf);
@@ -73,7 +76,6 @@ void			reset(t_fdf *fdf);
 
 /******init.c********/
 int				fdf_init(t_fdf *fdf);
-int				get_map_size(int fd, t_fdf *fdf);
 
 /******parse.c********/
 int				parse_data(int fd, t_fdf *fdf);
@@ -81,5 +83,9 @@ int				parse_data(int fd, t_fdf *fdf);
 /******math_utils.c********/
 double			map(double unscaled_num, double original_min,
 					double original_max, double target_min, double target_max);
-int				ft_ahextoi(const char *nptr);
+int				ahextoi(const char *nptr);
+
+/******render.c********/
+int	fdf_render(t_fdf *fdf);    // TODO
+int	render_pixels(t_fdf *fdf); // TODO
 #endif

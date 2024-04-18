@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/04/09 18:00:37 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/10 17:51:16 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ MLXDIR	= ./minilibx-linux
 
 HEADERS 	:= ./include
 OBJDIR		:= ./obj
-SRC     	:= math_utils.c render.c clean.c init.c main.c events.c
+SRC     	:= math_utils.c init.c main.c events.c
 OBJS     	:= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC      	:= cc

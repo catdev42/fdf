@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/09 21:28:59 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:16:50 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
 	int		fd;
-	char	*data;
 
-	if (argc != 2 || argc != 4)
+	if (argc != 2 && argc != 4)
 	{
 		ft_putstr_fd(ERROR_MESSAGE, 2);
 		return (1);
@@ -29,31 +28,34 @@ int	main(int argc, char **argv)
 	// fd = open(argv[1], O_RDONLY);
 	fd = open("./test_maps/simple.fdf", O_RDONLY);
 	if (fd == 0)
-		return (ft_clean(NULL, 1));
+		return (fdf_clean(&fdf, 1));
 	parse_data(fd, &fdf);
+	close(fd);
 	// data = get_next_line(fd);
 	// while (data)
 	// {
 	// 	parse_data(data, &fdf);
 	// 	data = get_next_line(fd);
 	// }
+		mlx_loop(fdf.mlx_connection);
+
 }
 
 /******CLEANING******/
 
 static void	clean_points(t_fdf *fdf)
 {
-	if (fdf->points.x)
+	if (fdf && fdf->points.x)
 		free(fdf->points.x);
-	if (fdf->points.y)
+	if (*fdf->points.y)
 		free(fdf->points.y);
-	if (fdf->points.z)
+	if (*fdf->points.z)
 		free(fdf->points.z);
-	if (fdf->points.iso_x)
+	if (*fdf->points.iso_x)
 		free(fdf->points.iso_x);
-	if (fdf->points.iso_y)
+	if (*fdf->points.iso_y)
 		free(fdf->points.iso_y);
-	if (fdf->points.color)
+	if (*fdf->points.color)
 		free(fdf->points.color);
 }
 // ADJUST EXTRA TO CLEAN FDF // TODO
@@ -83,4 +85,13 @@ int	fdf_clean(t_fdf *fdf, int err)
 		exit(1);
 	}
 	return (0);
+}
+void	free_split(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }

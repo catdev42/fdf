@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 00:20:51 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/18 22:22:54 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ double	map(double unscaled_num, double original_min, double original_max,
 		* (target_max - target_min) + target_min);
 }
 
-int	ft_ahextoi(const char *nptr)
+int	ahextoi(const char *nptr)
 {
 	int	num;
 	int	sign;
@@ -43,7 +43,7 @@ int	ft_ahextoi(const char *nptr)
 			sign *= -1;
 		i++;
 	}
-	if (nptr[i] == "0" && nptr[i + 1] == 'x')
+	if (nptr[i] == '0' && nptr[i + 1] == 'x')
 		i += 2;
 	else
 		return (0);
@@ -67,4 +67,19 @@ static int	hex_to_int(char c)
 		i++;
 	}
 	return (-1);
+}
+
+static int	calculate_isometric(t_fdf *fdf)
+{
+	int i;
+	i = 0;
+	while (i < fdf->x_len & fdf->y_len)
+	{
+		fdf->points.iso_x[i] = (fdf->points.x[i] - fdf->points.y[i])
+			* cos(fdf->angle);
+		fdf->points.iso_y[i] = (fdf->points.x[i] + fdf->points.y[i])
+			* sin(fdf->angle) - fdf->points.z[i];
+		i++;
+	}
+	return (1);
 }
