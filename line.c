@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:46:12 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/14 02:57:15 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/18 22:28:22 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,5 @@ void	draw_line(double x2, double y2, t_fdf *fdf, int current_i)
 		//     fdf->points.iso_y = 0;
 	}
 }
+
+/*https://editor.p5js.org/strangecatdev/sketches/JNxfF4hO7*/
