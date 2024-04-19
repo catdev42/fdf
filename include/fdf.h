@@ -16,6 +16,19 @@
 # define WIDTH 800
 # define HEIGHT 800
 
+typedef struct s_bres
+{
+	int			x;
+	int			y;
+	int			x2;
+	int			y2;
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	uint32_t	color;
+}				t_bres;
+
 typedef struct s_points
 {
 	double		*x;
@@ -24,6 +37,8 @@ typedef struct s_points
 	uint32_t	*color;
 	double		*iso_x;
 	double		*iso_y;
+	int			*mapped_x;
+	int			*mapped_y;
 }				t_points;
 
 typedef struct s_image
@@ -56,8 +71,9 @@ typedef struct s_fdf
 	int			z_max;
 	int			z_range;
 	t_points	points;
+	t_bres		bres;
 
-	// OPERATIONS
+	// OPERATIONS on visuals
 	double		zoom;
 	double		shift_x;
 	double		shift_y;
