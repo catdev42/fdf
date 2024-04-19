@@ -6,11 +6,11 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/18 22:22:54 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:30:13 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/fdf.h"
+#include "include/fdf.h"
 
 static int	hex_to_int(char c);
 

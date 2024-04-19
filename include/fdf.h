@@ -16,17 +16,6 @@
 # define WIDTH 800
 # define HEIGHT 800
 
-typedef struct s_bres{
-	int x;
-	int y;
-	int x2;
-	int y2;
-	int dx;
-	int dy;
-	int sx;
-	int sy;
-} t_line;
-
 typedef struct s_points
 {
 	double		*x;
@@ -67,9 +56,6 @@ typedef struct s_fdf
 	int			z_max;
 	int			z_range;
 	t_points	points;
-
-	//LINE
-	t_line line;
 
 	// OPERATIONS
 	double		zoom;
