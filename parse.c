@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 21:17:48 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/20 23:16:23 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ int	parse_data(int fd, t_fdf *fdf)
 
 	index = 0;
 	dataline = NULL;
-	fdf->points.x = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
-	fdf->points.y = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
-	fdf->points.z = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
-	fdf->points.color = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
-	fdf->points.iso_x = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
-	fdf->points.iso_y = ft_calloc((fdf->x_len * fdf->y_len + 2), sizeof(int));
+	fdf->points.x = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.z = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.color = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.iso_x = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.iso_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.map_x = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.map_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	if (!fdf->points.x || !fdf->points.y || !fdf->points.z || !fdf->points.color
-		|| !fdf->points.iso_x || !fdf->points.iso_y)
+		|| !fdf->points.iso_x || !fdf->points.iso_y || fdf->points.map_x
+		|| fdf->points.map_y)
 		fdf_clean(fdf, 1);
 	while (index < fdf->x_len * fdf->y_len)
 	{
@@ -45,6 +48,7 @@ int	parse_data(int fd, t_fdf *fdf)
 		index = parse_line(dataline, fdf, index);
 	}
 	calculate_isometric(fdf);
+	calculate_translation(fdf, &fdf->points);
 	return (1);
 }
 
@@ -104,5 +108,51 @@ static int	get_color(const char *single_map_item, int index, t_fdf *fdf)
 		fdf->z_min = fdf->points.z[index];
 	if (fdf->points.z[index] > fdf->z_max)
 		fdf->z_max = fdf->points.z[index];
+	return (1);
+}
+
+static int	calculate_isometric(t_fdf *fdf)
+{
+	int	i;
+
+	i = 0;
+	while (i < (fdf->x_len * fdf->y_len) && !fdf->points.iso_x[i])
+	{
+		fdf->points.iso_x[i] = (fdf->points.x[i] - fdf->points.y[i])
+			* cos(fdf->angle);
+		fdf->points.iso_y[i] = (fdf->points.x[i] + fdf->points.y[i])
+			* sin(fdf->angle) - fdf->points.z[i];
+		// CHECK MAX MIN
+		if (fdf->points.iso_x[i] < fdf->points.orig_min)
+			fdf->points.orig_min = fdf->points.iso_x[i];
+		if (fdf->points.iso_y[i] < fdf->points.orig_min)
+			fdf->points.orig_min = fdf->points.iso_y[i];
+		if (fdf->points.iso_x[i] > fdf->points.orig_max)
+			fdf->points.orig_max = fdf->points.iso_x[i];
+		if (fdf->points.iso_y[i] > fdf->points.orig_max)
+			fdf->points.orig_max = fdf->points.iso_y[i];
+		i++;
+	}
+	fdf->points.orig_min = floor(fdf->points.orig_min);
+	fdf->points.orig_max = ceil(fdf->points.orig_min);
+	return (1);
+}
+/*ANY TIME THERE IS A TRANSLATE OR ZOOM, THIS NEEDS TO BE RECALCULATED
+***AFTER CHANGE IN ORIG MIN AND ORIG MAX & TARGET MIN AND TARGET MAX*/
+int	calculate_translation(t_fdf *fdf, t_points *points)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (fdf->x_len * fdf->y_len))
+	{
+		points->map_x[i] = (points->iso_x[i] - points->orig_min)
+			/ (points->orig_max - points->orig_min) * (points->target_max
+				- points->target_min) + points->target_min;
+		points->map_y[i] = (points->iso_y[i] - points->orig_min)
+			/ (points->orig_max - points->orig_min) * (points->target_max
+				- points->target_min) + points->target_min;
+		i++;
+	}
 	return (1);
 }

@@ -28,7 +28,7 @@ typedef struct s_bres
 	int			sy;
 	uint32_t	color;
 }				t_bres;
-
+/// translate
 typedef struct s_points
 {
 	double		*x;
@@ -37,8 +37,14 @@ typedef struct s_points
 	uint32_t	*color;
 	double		*iso_x;
 	double		*iso_y;
-	int			*mapped_x;
-	int			*mapped_y;
+	int			*map_x;
+	int			*map_y;
+	// TRANSLATIONS
+	double		orig_min;
+	double		orig_max;
+	double		target_min;
+	double		target_max;
+
 }				t_points;
 
 typedef struct s_image
@@ -95,6 +101,7 @@ int				fdf_init(t_fdf *fdf);
 
 /******parse.c********/
 int				parse_data(int fd, t_fdf *fdf);
+int				calculate_translation(t_fdf *fdf, t_points *points);
 
 /******math_utils.c********/
 double			map(double unscaled_num, double original_min,

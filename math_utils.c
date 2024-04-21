@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:23:41 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 21:30:13 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:09:32 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ static int	hex_to_int(char c);
  * divide by original range to get a percentage, multiply by target range,
  * add target min
  */
-double	map(double unscaled_num, double original_min, double original_max,
-		double target_min, double target_max)
-{
-	return ((unscaled_num - original_min) / (original_max - original_min)
-		* (target_max - target_min) + target_min);
-}
+// double	map(double unscaled_num, double original_max, double target_min,
+// 		double target_max)
+// {
+// 	double	original_min;
+
+// 	original_min = 0;
+// 	return ((unscaled_num - original_min) / (original_max - original_min) * (target_max
+// 			- target_min) + target_min);
+// }
 
 int	ahextoi(const char *nptr)
 {
@@ -67,19 +70,4 @@ static int	hex_to_int(char c)
 		i++;
 	}
 	return (-1);
-}
-
-static int	calculate_isometric(t_fdf *fdf)
-{
-	int i;
-	i = 0;
-	while (i < fdf->x_len & fdf->y_len)
-	{
-		fdf->points.iso_x[i] = (fdf->points.x[i] - fdf->points.y[i])
-			* cos(fdf->angle);
-		fdf->points.iso_y[i] = (fdf->points.x[i] + fdf->points.y[i])
-			* sin(fdf->angle) - fdf->points.z[i];
-		i++;
-	}
-	return (1);
 }

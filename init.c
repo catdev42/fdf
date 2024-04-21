@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/10 21:13:06 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:58:58 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 static int	get_map_size(int fd, t_fdf *fdf);
 static void	data_init(t_fdf *fdf);
 static void	events_init(t_fdf *fdf);
+static void	init_points(t_points *points);
 
 int	fdf_init(t_fdf *fdf)
 {
@@ -63,25 +64,36 @@ static void	data_init(t_fdf *fdf)
 	fdf->z_min = INT_MAX;
 	fdf->z_max = INT_MIN;
 	fdf->z_range = 0;
-	// double
 	fdf->shift_x = 0.0;
 	fdf->shift_y = 0.0;
-	// zoom factor
 	fdf->zoom = 1.0;
 	fdf->angle = 30;
-	fdf->points.x = NULL;
-	fdf->points.y = NULL;
-	fdf->points.z = NULL;
-	fdf->points.color = NULL;
-	fdf->points.iso_x = NULL;
-	fdf->points.iso_y = NULL;
-	fdf->angle = atan(1 /2);
+	init_points(&fdf->points);
+	fdf->angle = atan(1 / 2);
 	// map sizes
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)
 		fdf_clean(fdf, 3);
 	get_map_size(fd, fdf);
 	close(fd);
+}
+
+static void	init_points(t_points *points)
+{
+	points->x = NULL;
+	points->y = NULL;
+	points->z = NULL;
+	points->color = NULL;
+	points->iso_x = NULL;
+	points->iso_y = NULL;
+	points->orig_min = INT_MAX;
+	points->orig_max = INT_MIN;
+	points->target_min = WIDTH / 10;
+	points->target_max = WIDTH - WIDTH / 10;
+	points->map_x = NULL;
+	points->map_y = NULL;
+	
+	return (1);
 }
 /*Need to get sizes to know how much to malloc*/
 static int	get_map_size(int fd, t_fdf *fdf)
