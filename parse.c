@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 13:55:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:53:58 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ int	parse_data(int fd, t_fdf *fdf)
 	fdf->points.iso_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	fdf->points.map_x = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	fdf->points.map_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	fdf->points.map_z = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	if (!fdf->points.x || !fdf->points.y || !fdf->points.z || !fdf->points.color
-		|| !fdf->points.iso_x || !fdf->points.iso_y || fdf->points.map_x
-		|| fdf->points.map_y)
+		|| !fdf->points.iso_x || !fdf->points.iso_y || !fdf->points.map_x
+		|| !fdf->points.map_y || !fdf->points.map_z)
 		fdf_clean(fdf, 1);
 	while (index < fdf->x_len * fdf->y_len)
 	{
@@ -47,8 +48,8 @@ int	parse_data(int fd, t_fdf *fdf)
 			break ;
 		index = parse_line(dataline, fdf, index);
 	}
-	calculate_isometric(fdf);
 	calculate_translation(fdf, &fdf->points);
+	calculate_isometric(fdf);
 	return (1);
 }
 
@@ -113,6 +114,12 @@ static int	get_color(const char *single_map_item, int index, t_fdf *fdf)
 
 /*ANY TIME THERE IS A TRANSLATE OR ZOOM, THIS NEEDS TO BE RECALCULATED
 ***AFTER CHANGE IN ORIG MIN AND ORIG MAX & TARGET MIN AND TARGET MAX*/
+
+/*Program received signal SIGFPE, Arithmetic exception.
+0x000055555555752a in calculate_translation (fdf=0x7fffffffe010,
+	points=0x7fffffffe060) at parse.c:125
+125                     points->map_x[i] = (points->x[i] - points->orig_min)
+	/ (points->orig_max*/
 int	calculate_translation(t_fdf *fdf, t_points *points)
 {
 	size_t	i;
@@ -120,15 +127,15 @@ int	calculate_translation(t_fdf *fdf, t_points *points)
 	i = 0;
 	while (i < (fdf->x_len * fdf->y_len))
 	{
-		points->map_x[i] = (points->x[i] - points->orig_min) / (points->orig_max
-				- points->orig_min) * (points->target_max - points->target_min)
-			+ points->target_min;
-		points->map_y[i] = (points->y[i] - points->orig_min) / (points->orig_max
-				- points->orig_min) * (points->target_max - points->target_min)
-			+ points->target_min;
-		points->map_z[i] = (points->z[i] - points->orig_min) / (points->orig_max
-				- points->orig_min) * (points->target_max - points->target_min)
-			+ points->target_min;
+		points->map_x[i] = ((points->x[i] - points->orig_min)
+				/ (points->orig_max - points->orig_min) * (points->target_max
+					- points->target_min) + points->target_min);
+		points->map_y[i] = ((points->y[i] - points->orig_min)
+				/ (points->orig_max - points->orig_min) * (points->target_max
+					- points->target_min) + points->target_min);
+		points->map_z[i] = ((points->z[i] - points->orig_min)
+				/ (points->orig_max - points->orig_min) * (points->target_max
+					- points->target_min) + points->target_min);
 		i++;
 	}
 	return (1);
@@ -139,6 +146,8 @@ static int	calculate_isometric(t_fdf *fdf)
 	int	i;
 
 	i = 0;
+	fdf->points.orig_min = INT_MAX;
+	fdf->points.orig_max = INT_MIN;
 	while (i < (fdf->x_len * fdf->y_len) && !fdf->points.iso_x[i])
 	{
 		fdf->points.iso_x[i] = (fdf->points.map_x[i] - fdf->points.map_y[i])
@@ -157,6 +166,19 @@ static int	calculate_isometric(t_fdf *fdf)
 			fdf->z_min = fdf->points.z[i];
 		if (fdf->points.map_z[i] > fdf->z_max)
 			fdf->z_max = fdf->points.z[i];
+		i++;
+	}
+	i = 0;
+	while (i < (fdf->x_len * fdf->y_len) && !fdf->points.iso_x[i])
+	{
+		fdf->points.iso_x[i] = (fdf->points.iso_x[i] - fdf->points.orig_min)
+			/ (fdf->points.orig_max - fdf->points.orig_min)
+			* (fdf->points.target_max - fdf->points.target_min)
+			+ fdf->points.target_min;
+		fdf->points.iso_x[i] = (fdf->points.iso_x[i] - fdf->points.orig_min)
+			/ (fdf->points.orig_max - fdf->points.orig_min)
+			* (fdf->points.target_max - fdf->points.target_min)
+			+ fdf->points.target_min;
 		i++;
 	}
 	return (1);

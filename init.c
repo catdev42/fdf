@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/20 17:58:58 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:10:47 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	fdf_init(t_fdf *fdf)
 	fdf->img.img_ptr = mlx_new_image(fdf->mlx_connection, WIDTH, HEIGHT);
 	if (!fdf->img.img_ptr)
 		fdf_clean(fdf, 1);
-	fdf->img.pixels_ptr = mlx_get_data_addr(fdf->mlx_connection, &fdf->img.bpp,
+	fdf->img.pixels_ptr = mlx_get_data_addr(fdf->img.img_ptr, &fdf->img.bpp,
 			&fdf->img.line_len, &fdf->img.endian);
 	events_init(fdf);
 	data_init(fdf);
@@ -43,7 +43,8 @@ int	fdf_init(t_fdf *fdf)
 static void	events_init(t_fdf *fdf)
 {
 	mlx_hook(fdf->mlx_window, KeyPress, KeyPressMask, key_handler, fdf);
-	mlx_hook(fdf->mlx_window, ButtonPress, ButtonPressMask, mouse_handler, fdf);
+	// mlx_hook(fdf->mlx_window, ButtonPress, ButtonPressMask, mouse_handler,
+	// fdf);
 	mlx_hook(fdf->mlx_window, DestroyNotify, StructureNotifyMask, close_handler,
 		fdf);
 	// mlx_hook(fdf->mlx_window,
@@ -52,7 +53,12 @@ static void	events_init(t_fdf *fdf)
 	// 		julia_track,
 	// 		fdf);
 }
-
+/*
+TODO
+INIT POINTS NEEDS MAP DATA??? CHECK MAP DATA FUNCTION...
+ need ORIGINAL MIN AND ORIGINAL MAX WHICH IS LEN_X OR LENY,
+	WHICHEVER IS BIGGER
+*/
 static void	data_init(t_fdf *fdf)
 {
 	int	fd;
@@ -67,9 +73,9 @@ static void	data_init(t_fdf *fdf)
 	fdf->shift_x = 0.0;
 	fdf->shift_y = 0.0;
 	fdf->zoom = 1.0;
-	fdf->angle = 30;
+	// fdf->angle = 30;
 	init_points(&fdf->points);
-	fdf->angle = atan(1 / 2);
+	fdf->angle = atan(0.5);
 	// map sizes
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)
@@ -86,14 +92,12 @@ static void	init_points(t_points *points)
 	points->color = NULL;
 	points->iso_x = NULL;
 	points->iso_y = NULL;
-	points->orig_min = INT_MAX;
-	points->orig_max = INT_MIN;
+	points->orig_min = 0;
+	points->orig_max = 0;
 	points->target_min = WIDTH / 10;
 	points->target_max = WIDTH - WIDTH / 10;
 	points->map_x = NULL;
 	points->map_y = NULL;
-	
-	return (1);
 }
 /*Need to get sizes to know how much to malloc*/
 static int	get_map_size(int fd, t_fdf *fdf)
@@ -101,7 +105,7 @@ static int	get_map_size(int fd, t_fdf *fdf)
 	char	**alpha_dataline_split;
 	char	*nextline;
 
-	if (!fd)
+	if (!fd || fd == -1)
 		fdf_clean(fdf, 3);
 	while (fd)
 	{
@@ -120,7 +124,10 @@ static int	get_map_size(int fd, t_fdf *fdf)
 		free(nextline);
 		fdf->y_len++;
 	}
-	if (!fd || !fdf->x_len || !fdf->y_len)
+	if (!fdf->x_len || !fdf->y_len)
 		fdf_clean(fdf, 3);
+	fdf->points.orig_max = fdf->x_len;
+	if (fdf->y_len > fdf->x_len)
+		fdf->points.orig_max = fdf->y_len;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/19 16:34:20 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:06:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ int	main(int argc, char **argv)
 	fdf_init(&fdf);
 	// fd = open(argv[1], O_RDONLY);
 	fd = open("./test_maps/simple.fdf", O_RDONLY);
-	if (fd == 0)
-		return (fdf_clean(&fdf, 1));
+	if (fd == -1)
+		return (fdf_clean(&fdf, 3));
 	parse_data(fd, &fdf);
+	render_lines(&fdf.bres, &fdf);
 	close(fd);
 	// data = get_next_line(fd);
 	// while (data)

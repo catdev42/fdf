@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:00:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 14:08:10 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:11:45 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static int	my_put_pixel(int x, int y, t_image *img, int color);
 void	render_lines(t_bres *bres, t_fdf *fdf)
 {
 	int	i;
+	// int	offset;
 
+	i = 0;
+	// offset = 100 * fdf->img.line_len + 100 * (fdf->img.bpp / 8);
+	// *(unsigned int *)(fdf->img.pixels_ptr + offset) = 0xffffff;
 	while (i < (fdf->x_len * fdf->y_len) - 1)
 	{
 		bres->x = fdf->points.iso_x[i];
@@ -41,6 +45,8 @@ void	render_lines(t_bres *bres, t_fdf *fdf)
 		}
 		i++;
 	}
+	mlx_put_image_to_window(fdf->mlx_connection, fdf->mlx_window,
+		fdf->img.img_ptr, 0, 0);
 }
 
 static void	init_bres(t_bres *bres)
@@ -64,12 +70,13 @@ static void	run_bres(t_bres *bres, t_image *img)
 	int	err;
 	int	offset;
 
+	offset = 0;
 	err = bres->dx - bres->dy;
 	while (bres->x != bres->x2 || bres->y != bres->y2)
 	{
 		offset = bres->y * img->line_len + bres->x * (img->bpp / 8);
 		if (bres->x > 0 && bres->y > 0 && bres->x < WIDTH && bres->y < HEIGHT)
-			*(unsigned int *)(img->pixels_ptr + offset) = bres->color;
+			*(unsigned int *)(img->pixels_ptr + offset) = 0xffffff;
 		e2 = 2 * err;
 		if (e2 > -bres->dy)
 		{

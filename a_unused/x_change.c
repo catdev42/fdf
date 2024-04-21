@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:22:33 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 13:57:52 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/21 14:09:15 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	make_line(t_bres *bres, t_fdf *fdf)
 			init_bres(bres);
 			run_bres(bres, &fdf->img);
 		}
-		i++;
+		i++; 
 	}
 }

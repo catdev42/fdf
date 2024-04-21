@@ -41,10 +41,10 @@ typedef struct s_points
 	int			*map_y;
 	int			*map_z;
 	// TRANSLATIONS
-	int		orig_min;
-	int		orig_max;
-	int		target_min;
-	int		target_max;
+	int			orig_min;
+	int			orig_max;
+	int			target_min;
+	int			target_max;
 
 }				t_points;
 
@@ -110,9 +110,7 @@ double			map(double unscaled_num, double original_min,
 int				ahextoi(const char *nptr);
 
 /******render.c********/
-void	render_lines(t_bres *bres, t_fdf *fdf)
-
-
+void			render_lines(t_bres *bres, t_fdf *fdf);
 
 // int	fdf_render(t_fdf *fdf);    // TODO
 // int	render_pixels(t_fdf *fdf); // TODO
