@@ -31,19 +31,20 @@ typedef struct s_bres
 /// translate
 typedef struct s_points
 {
-	double		*x;
-	double		*y;
-	double		*z;
+	int			*x;
+	int			*y;
+	int			*z;
 	uint32_t	*color;
-	double		*iso_x;
-	double		*iso_y;
+	int			*iso_x;
+	int			*iso_y;
 	int			*map_x;
 	int			*map_y;
+	int			*map_z;
 	// TRANSLATIONS
-	double		orig_min;
-	double		orig_max;
-	double		target_min;
-	double		target_max;
+	int		orig_min;
+	int		orig_max;
+	int		target_min;
+	int		target_max;
 
 }				t_points;
 
@@ -109,6 +110,10 @@ double			map(double unscaled_num, double original_min,
 int				ahextoi(const char *nptr);
 
 /******render.c********/
-int	fdf_render(t_fdf *fdf);    // TODO
-int	render_pixels(t_fdf *fdf); // TODO
+void	render_lines(t_bres *bres, t_fdf *fdf)
+
+
+
+// int	fdf_render(t_fdf *fdf);    // TODO
+// int	render_pixels(t_fdf *fdf); // TODO
 #endif
