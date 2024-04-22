@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/22 17:19:30 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:08:53 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ static void	init_points(t_fdf *fdf)
 	points->iso_y = NULL;
 	points->orig_min = 0;
 	points->orig_max = largest;
-	points->target_min = min_side / 10;
-	points->target_max = min_side - (min_side / 10);
+	points->target_min = 0;   // changed
+	points->target_max = 799; // changed
 	points->map_x = NULL;
 	points->map_y = NULL;
 }

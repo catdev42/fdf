@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 15:06:08 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:32:08 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 	fdf.name = argv[1];
 	fdf_init(&fdf);
 	// fd = open(argv[1], O_RDONLY);
-	fd = open("./test_maps/simple.fdf", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		return (fdf_clean(&fdf, 3));
 	parse_data(fd, &fdf);
@@ -38,8 +38,7 @@ int	main(int argc, char **argv)
 	// 	parse_data(data, &fdf);
 	// 	data = get_next_line(fd);
 	// }
-		mlx_loop(fdf.mlx_connection);
-
+	mlx_loop(fdf.mlx_connection);
 }
 
 /******CLEANING******/

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:00:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/22 18:58:43 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:35:07 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 static void	init_bres(t_bres *bres);
 static void	run_bres(t_bres *bres, t_image *img);
 static int	my_put_pixel(int x, int y, t_image *img, int color);
+
+void	push_points(t_fdf *fdf)
+{
+	int	count;
+
+	count = 0;
+	while (count < 12)
+	{
+		my_put_pixel(fdf->points.map_x[count], fdf->points.map_y[count],
+			&fdf->img, 0xffffff);
+		count++;
+		// printf("%i: x: %i , y: %i \n", count++, fdf->points.map_x[count],
+		// 	fdf->points.map_y[count]);
+	}
+}
 
 void	render_lines(t_bres *bres, t_fdf *fdf)
 {
@@ -29,23 +44,24 @@ void	render_lines(t_bres *bres, t_fdf *fdf)
 		bres->x = fdf->points.map_x[i];
 		bres->y = fdf->points.map_y[i];
 		bres->color = fdf->points.color[i];
-		if (fdf->points.x[i] < fdf->x_len - 2)
+		if (fdf->points.x[i] < fdf->x_len - 1)
 		{
 			bres->x2 = fdf->points.map_x[i + 1];
 			bres->y2 = fdf->points.map_y[i + 1];
 			init_bres(bres);
 			run_bres(bres, &fdf->img);
-			mlx_put_image_to_window(fdf->mlx_connection, fdf->mlx_window,
-		fdf->img.img_ptr, 0, 0);
+			push_points(fdf);
+			// mlx_put_image_to_window(fdf->mlx_connection, fdf->mlx_window,
+			// 	fdf->img.img_ptr, 0, 0);
 		}
-		if (fdf->points.y[i] < fdf->y_len - 2)
+		if (fdf->points.y[i] < fdf->y_len - 1)
 		{
-			bres->x2 = fdf->points.map_x[i + 1];
+			bres->x2 = fdf->points.map_x[i + fdf->x_len];
 			bres->y2 = fdf->points.map_y[i + fdf->x_len];
 			init_bres(bres);
 			run_bres(bres, &fdf->img);
-			mlx_put_image_to_window(fdf->mlx_connection, fdf->mlx_window,
-		fdf->img.img_ptr, 0, 0);
+			// mlx_put_image_to_window(fdf->mlx_connection, fdf->mlx_window,
+			// 	fdf->img.img_ptr, 0, 0);
 		}
 		i++;
 	}
@@ -100,10 +116,10 @@ static void	run_bres(t_bres *bres, t_image *img)
 	}
 }
 
-// static int	my_put_pixel(int x, int y, t_image *img, int color)
-// {
-// 	int	offset;
+static int	my_put_pixel(int x, int y, t_image *img, int color)
+{
+	int	offset;
 
-// 	offset = y * img->line_len + x * (img->bpp / 8);
-// 	*(unsigned int *)(img->pixels_ptr + offset) = color;
-// }
+	offset = y * img->line_len + x * (img->bpp / 8);
+	*(unsigned int *)(img->pixels_ptr + offset) = color;
+}
