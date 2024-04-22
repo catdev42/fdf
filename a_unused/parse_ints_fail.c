@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_ints_fail.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 16:53:58 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:53:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
-
 static int	parse_line(char *dataline, t_fdf *fdf, int index);
 static int	calculate_isometric(t_fdf *fdf);
 static int	get_color(const char *single_map_item, int index, t_fdf *fdf);
-
+static void	calc_min_max_iso(t_fdf *fdf);
+static void	translating_iso(t_fdf *fdf);
 /*Malloc
  *Open File
  *Parse each line (function)
@@ -36,10 +36,10 @@ int	parse_data(int fd, t_fdf *fdf)
 	fdf->points.iso_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	fdf->points.map_x = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	fdf->points.map_y = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
-	fdf->points.map_z = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
+	// fdf->points.map_z = ft_calloc((fdf->x_len * fdf->y_len + 2), 4);
 	if (!fdf->points.x || !fdf->points.y || !fdf->points.z || !fdf->points.color
 		|| !fdf->points.iso_x || !fdf->points.iso_y || !fdf->points.map_x
-		|| !fdf->points.map_y || !fdf->points.map_z)
+		|| !fdf->points.map_y) // || !fdf->points.map_z
 		fdf_clean(fdf, 1);
 	while (index < fdf->x_len * fdf->y_len)
 	{
@@ -65,8 +65,9 @@ static int	parse_line(char *dataline, t_fdf *fdf, int index)
 	// 	index++;
 	x = 0;
 	y = 0;
-	if (fdf->points.y[0])
-		y = fdf->points.y[i] + 1;
+	// if (fdf->points.y[0])
+	if (index)
+		y = fdf->points.y[i - 1] + 1;
 	if (dataline[ft_strlen(dataline) - 1] == '\n')
 		dataline[ft_strlen(dataline) - 1] = 0;
 	alpha_dataline_split = ft_split(dataline, ' ');
@@ -127,9 +128,7 @@ int	calculate_translation(t_fdf *fdf, t_points *points)
 	i = 0;
 	while (i < (fdf->x_len * fdf->y_len))
 	{
-		points->map_x[i] = ((points->x[i] - points->orig_min)
-				/ (points->orig_max - points->orig_min) * (points->target_max
-					- points->target_min) + points->target_min);
+		points->map_x[i] = ((points->x[i] - points->orig_min) / (points->orig_max - points->orig_min) * (points->target_max - points->target_min) + points->target_min);					
 		points->map_y[i] = ((points->y[i] - points->orig_min)
 				/ (points->orig_max - points->orig_min) * (points->target_max
 					- points->target_min) + points->target_min);
@@ -139,6 +138,29 @@ int	calculate_translation(t_fdf *fdf, t_points *points)
 		i++;
 	}
 	return (1);
+}
+
+/*is_iso is bool*/
+static void	calc_min_max_iso(t_fdf *fdf)
+{
+	t_points	*points;
+	int			i;
+
+	i = 0;
+	points = &fdf->points;
+	points->orig_min = INT_MAX;
+	points->orig_max = INT_MIN;
+	while (i < (fdf->x_len * fdf->y_len))
+	{
+		if (points->iso_x[i] < points->orig_min)
+			points->orig_min = points->iso_x[i];
+		if (points->iso_y[i] < points->orig_min)
+			points->orig_min = points->iso_y[i];
+		if (points->iso_x[i] > points->orig_max)
+			points->orig_max = points->iso_x[i];
+		if (points->iso_y[i] > points->orig_max)
+			points->orig_max = points->iso_y[i];
+	}
 }
 
 static int	calculate_isometric(t_fdf *fdf)
@@ -162,24 +184,25 @@ static int	calculate_isometric(t_fdf *fdf)
 			fdf->points.orig_max = fdf->points.iso_x[i];
 		if (fdf->points.iso_y[i] > fdf->points.orig_max)
 			fdf->points.orig_max = fdf->points.iso_y[i];
-		if (fdf->points.map_z[i] < fdf->z_min)
-			fdf->z_min = fdf->points.z[i];
-		if (fdf->points.map_z[i] > fdf->z_max)
-			fdf->z_max = fdf->points.z[i];
 		i++;
 	}
-	i = 0;
+	// calc_min_max_iso(fdf);
+	translating_iso(fdf);
+	return (1);
+}
+static void	translating_iso(t_fdf *fdf)
+{
+	int i;
 	while (i < (fdf->x_len * fdf->y_len) && !fdf->points.iso_x[i])
 	{
 		fdf->points.iso_x[i] = (fdf->points.iso_x[i] - fdf->points.orig_min)
 			/ (fdf->points.orig_max - fdf->points.orig_min)
 			* (fdf->points.target_max - fdf->points.target_min)
 			+ fdf->points.target_min;
-		fdf->points.iso_x[i] = (fdf->points.iso_x[i] - fdf->points.orig_min)
+		fdf->points.iso_y[i] = (fdf->points.iso_y[i] - fdf->points.orig_min)
 			/ (fdf->points.orig_max - fdf->points.orig_min)
 			* (fdf->points.target_max - fdf->points.target_min)
 			+ fdf->points.target_min;
 		i++;
 	}
-	return (1);
 }

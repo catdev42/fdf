@@ -31,20 +31,20 @@ typedef struct s_bres
 /// translate
 typedef struct s_points
 {
-	int			*x;
-	int			*y;
-	int			*z;
+	double		*x;
+	double		*y;
+	double		*z;
 	uint32_t	*color;
-	int			*iso_x;
-	int			*iso_y;
+	double		*iso_x;
+	double		*iso_y;
 	int			*map_x;
 	int			*map_y;
-	int			*map_z;
+	// int			*map_z;
 	// TRANSLATIONS
-	int			orig_min;
-	int			orig_max;
-	int			target_min;
-	int			target_max;
+	double		orig_min;
+	double		orig_max;
+	double		target_min;
+	double		target_max;
 
 }				t_points;
 

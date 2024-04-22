@@ -6,20 +6,16 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 17:10:47 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:19:30 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
 
-/*
-	Reset to original isometric projection.
-	Original view.
-*/
 static int	get_map_size(int fd, t_fdf *fdf);
 static void	data_init(t_fdf *fdf);
 static void	events_init(t_fdf *fdf);
-static void	init_points(t_points *points);
+static void	init_points(t_fdf *fdf);
 
 int	fdf_init(t_fdf *fdf)
 {
@@ -73,10 +69,8 @@ static void	data_init(t_fdf *fdf)
 	fdf->shift_x = 0.0;
 	fdf->shift_y = 0.0;
 	fdf->zoom = 1.0;
-	// fdf->angle = 30;
-	init_points(&fdf->points);
+	init_points(fdf);
 	fdf->angle = atan(0.5);
-	// map sizes
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)
 		fdf_clean(fdf, 3);
@@ -84,8 +78,19 @@ static void	data_init(t_fdf *fdf)
 	close(fd);
 }
 
-static void	init_points(t_points *points)
+static void	init_points(t_fdf *fdf)
 {
+	int			min_side;
+	int			largest;
+	t_points	*points;
+
+	points = &fdf->points;
+	largest = fdf->x_len - 1;
+	if (fdf->y_len > fdf->x_len)
+		largest = fdf->y_len - 1;
+	min_side = WIDTH;
+	if (HEIGHT < WIDTH)
+		min_side = HEIGHT;
 	points->x = NULL;
 	points->y = NULL;
 	points->z = NULL;
@@ -93,9 +98,9 @@ static void	init_points(t_points *points)
 	points->iso_x = NULL;
 	points->iso_y = NULL;
 	points->orig_min = 0;
-	points->orig_max = 0;
-	points->target_min = WIDTH / 10;
-	points->target_max = WIDTH - WIDTH / 10;
+	points->orig_max = largest;
+	points->target_min = min_side / 10;
+	points->target_max = min_side - (min_side / 10);
 	points->map_x = NULL;
 	points->map_y = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 16:39:34 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:19:45 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	close_handler(t_fdf *fdf)
 	exit(EXIT_SUCCESS);
 }
 
+/*
+	Reset to original isometric projection.
+	Original view.
+*/
 void	reset(t_fdf *fdf)
 {
 	// fdf->angle = sqrt(3) / 3;
