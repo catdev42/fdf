@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:00:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/21 17:11:45 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:10:13 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	render_lines(t_bres *bres, t_fdf *fdf)
 			init_bres(bres);
 			run_bres(bres, &fdf->img);
 		}
-		if (fdf->points.y[i] < fdf->y_len - 2)
+		if (fdf->points.y[i] < fdf->y_len - 2) 
 		{
 			bres->x2 = fdf->points.iso_x[i + 1];
 			bres->y2 = fdf->points.iso_y[i + fdf->x_len];
