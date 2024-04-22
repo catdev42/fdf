@@ -26,6 +26,7 @@ typedef struct s_bres
 	int			dy;
 	int			sx;
 	int			sy;
+	int			err;
 	uint32_t	color;
 }				t_bres;
 /// translate
@@ -39,8 +40,7 @@ typedef struct s_points
 	double		*iso_y;
 	int			*map_x;
 	int			*map_y;
-	// int			*map_z;
-	// TRANSLATIONS
+
 	double		orig_min;
 	double		orig_max;
 	double		target_min;
@@ -58,10 +58,7 @@ typedef struct s_image
 }				t_image;
 
 /*
- * the map contains everything
- * all user manipulations
- * points
- * image
+ * fdf contains everything
  */
 typedef struct s_fdf
 {
@@ -70,7 +67,6 @@ typedef struct s_fdf
 	void		*mlx_window;
 	t_image		img;
 
-	// MAP INFO
 	int			x_len;
 	int			y_len;
 	int			total_points;
@@ -80,11 +76,11 @@ typedef struct s_fdf
 	t_points	points;
 	t_bres		bres;
 
-	// OPERATIONS on visuals
 	double		zoom;
 	double		shift_x;
 	double		shift_y;
 	double		angle;
+	uint32_t	col;
 }				t_fdf;
 
 /******main.c********/
@@ -101,7 +97,10 @@ void			reset(t_fdf *fdf);
 int				fdf_init(t_fdf *fdf);
 
 /******parse.c********/
-int				parse_data(int fd, t_fdf *fdf);
+void			parse_data(int fd, t_fdf *fdf, t_points *points);
+int				calculate_isometric(t_fdf *fdf);
+
+void			calc_min_max_iso(t_fdf *fdf);
 int				calculate_translation(t_fdf *fdf, t_points *points);
 
 /******math_utils.c********/
@@ -112,6 +111,4 @@ int				ahextoi(const char *nptr);
 /******render.c********/
 void			render_lines(t_bres *bres, t_fdf *fdf);
 
-// int	fdf_render(t_fdf *fdf);    // TODO
-// int	render_pixels(t_fdf *fdf); // TODO
 #endif

@@ -6,13 +6,13 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/22 20:08:53 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 00:13:51 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
 
-static int	get_map_size(int fd, t_fdf *fdf);
+static void	get_map_size(int fd, t_fdf *fdf);
 static void	data_init(t_fdf *fdf);
 static void	events_init(t_fdf *fdf);
 static void	init_points(t_fdf *fdf);
@@ -39,27 +39,14 @@ int	fdf_init(t_fdf *fdf)
 static void	events_init(t_fdf *fdf)
 {
 	mlx_hook(fdf->mlx_window, KeyPress, KeyPressMask, key_handler, fdf);
-	// mlx_hook(fdf->mlx_window, ButtonPress, ButtonPressMask, mouse_handler,
-	// fdf);
 	mlx_hook(fdf->mlx_window, DestroyNotify, StructureNotifyMask, close_handler,
 		fdf);
-	// mlx_hook(fdf->mlx_window,
-	// 		MotionNotify,
-	// 		PointerMotionMask,
-	// 		julia_track,
-	// 		fdf);
 }
-/*
-TODO
-INIT POINTS NEEDS MAP DATA??? CHECK MAP DATA FUNCTION...
- need ORIGINAL MIN AND ORIGINAL MAX WHICH IS LEN_X OR LENY,
-	WHICHEVER IS BIGGER
-*/
+
 static void	data_init(t_fdf *fdf)
 {
 	int	fd;
 
-	// int
 	fdf->x_len = 0;
 	fdf->y_len = 0;
 	fdf->total_points = 0;
@@ -69,6 +56,7 @@ static void	data_init(t_fdf *fdf)
 	fdf->shift_x = 0.0;
 	fdf->shift_y = 0.0;
 	fdf->zoom = 1.0;
+	fdf->col = 0xffffff;
 	init_points(fdf);
 	fdf->angle = atan(0.5);
 	fd = open(fdf->name, O_RDONLY);
@@ -99,20 +87,19 @@ static void	init_points(t_fdf *fdf)
 	points->iso_y = NULL;
 	points->orig_min = 0;
 	points->orig_max = largest;
-	points->target_min = 0;   // changed
-	points->target_max = 799; // changed
+	points->target_min = 80;
+	points->target_max = 720;
 	points->map_x = NULL;
 	points->map_y = NULL;
 }
-/*Need to get sizes to know how much to malloc*/
-static int	get_map_size(int fd, t_fdf *fdf)
+
+/* GET SIZES to know how much to malloc */
+static void	get_map_size(int fd, t_fdf *fdf)
 {
 	char	**alpha_dataline_split;
 	char	*nextline;
 
-	if (!fd || fd == -1)
-		fdf_clean(fdf, 3);
-	while (fd)
+	while (fd != -1)
 	{
 		nextline = get_next_line(fd);
 		if (!nextline)
@@ -124,15 +111,24 @@ static int	get_map_size(int fd, t_fdf *fdf)
 			alpha_dataline_split = ft_split(nextline, ' ');
 			while (alpha_dataline_split[fdf->x_len])
 				fdf->x_len++;
-			free(alpha_dataline_split);
+			free_split(alpha_dataline_split);
 		}
 		free(nextline);
 		fdf->y_len++;
 	}
-	if (!fdf->x_len || !fdf->y_len)
+	if (fd == -1 || !fdf->x_len || !fdf->y_len)
 		fdf_clean(fdf, 3);
 	fdf->points.orig_max = fdf->x_len;
 	if (fdf->y_len > fdf->x_len)
 		fdf->points.orig_max = fdf->y_len;
-	return (1);
 }
+
+/*
+// mlx_hook(fdf->mlx_window, ButtonPress, ButtonPressMask, mouse_handler, fdf);
+
+// mlx_hook(fdf->mlx_window,
+	// 		MotionNotify,
+	// 		PointerMotionMask,
+	// 		julia_track,
+	// 		fdf);
+*/

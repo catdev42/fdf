@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/04/10 17:51:16 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/22 23:00:13 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ MLXDIR	= ./minilibx-linux
 
 HEADERS 	:= ./include
 OBJDIR		:= ./obj
-SRC     	:= math_utils.c init.c main.c events.c
+SRC     	:= calcpoints.c events.c init.c main.c math_utils.c parse.c render.c
 OBJS     	:= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 CC      	:= cc
-CFLAGS  	:= -Wall -Wextra -Werror -g
+CFLAGS  	:= -Wall -Wextra -Werror -g -fPIC
 
 #------------------------------------------------#
 #   RECIPES                                      #
@@ -49,9 +49,9 @@ runlibmlx:
 	$(MAKE) -C $(MLXDIR)
 
 $(NAME): runlibft runlibmlx $(OBJS) 
-	gcc -g *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
-#	gcc *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+#	gcc -g *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 # $(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
