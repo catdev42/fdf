@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:19:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 00:13:51 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:43:48 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	data_init(t_fdf *fdf)
 	fdf->zoom = 1.0;
 	fdf->col = 0xffffff;
 	init_points(fdf);
-	fdf->angle = atan(0.5);
+	fdf->angle = -atan(0.5); //changed
 	fd = open(fdf->name, O_RDONLY);
 	if (fd == -1)
 		fdf_clean(fdf, 3);

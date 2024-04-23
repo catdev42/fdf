@@ -6,30 +6,105 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:02:39 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 16:10:11 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:38:31 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	*buffer;
 	char		*line;
 
 	line = NULL;
+	if (!buffer)
+	{
+		buffer = malloc(BUFFER_SIZE + 1);
+		if (!buffer)
+			return (NULL);
+		ft_bzero(buffer, (BUFFER_SIZE + 1));
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (ft_clearfree(buffer, line));
+		return (ft_clearfree(&buffer, line));
 	line = ft_strjoinbuff(line, buffer);
 	if (!line)
-		return (ft_clearfree(buffer, line));
+		return (ft_clearfree(&buffer, line));
 	line = ft_read(fd, line, buffer);
 	if (!line)
-		return (NULL);
+		return (ft_clearfree(&buffer, line));
 	line = ft_takeline(line, buffer);
 	if (!ft_strlen(line))
-		return (ft_clearfree(buffer, line));
+		return (ft_clearfree(&buffer, line));
+	return (line);
+}
+
+
+char	*ft_strjoinbuff(char *s1, char const *buff)
+{
+	size_t	len_s1;
+	size_t	lenbuff;
+	size_t	i;
+	size_t	j;
+	char	*string;
+
+	if (s1)
+		len_s1 = ft_strlen(s1);
+	else
+		len_s1 = 0;
+	if (buff)
+		lenbuff = ft_strlen(buff);
+	else
+		lenbuff = 0;
+	i = 0;
+	j = 0;
+	string = malloc(sizeof(char) * (len_s1 + BUFFER_SIZE) + 1);
+	if (!(string))
+	{
+		free(s1);
+		return (NULL);
+	}
+	while (i < (len_s1))
+	{
+		string[i] = s1[i];
+		i++;
+	}
+	while (i < (len_s1 + lenbuff))
+	{
+		string[i++] = buff[j++];
+	}
+	string[i] = 0;
+	return (string);
+}
+
+char	*ft_read(int fd, char *line, char *buffer)
+{
+	size_t			i;
+	long long int	bytes_read;
+	char			*newline;
+
+	bytes_read = 1;
+	if (ft_strchr(buffer, '\n'))
+		bytes_read = 0;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (NULL);
+		if (bytes_read < BUFFER_SIZE && bytes_read >= 0)
+		{
+			i = bytes_read;
+			while (i < BUFFER_SIZE)
+				buffer[i++] = 0;
+		}
+		newline = ft_strjoinbuff(line, buffer);
+		if (!newline || bytes_read == -1)
+			return (NULL);
+		free(line);
+		line = newline;
+		if (ft_strchr(line, '\n'))
+			break ;
+	}
 	return (line);
 }
 
@@ -59,71 +134,18 @@ char	*ft_takeline(char *line, char *buffer)
 	return (newline);
 }
 
-char	*ft_strjoinbuff(char *s1, char const *buff)
-{
-	size_t	len_s1;
-	size_t	lenbuff;
-	size_t	i;
-	size_t	j;
-	char	*string;
 
-	len_s1 = ft_strlen(s1);
-	lenbuff = ft_strlen(buff);
-	i = 0;
-	j = 0;
-	string = malloc(sizeof(char) * (len_s1 + BUFFER_SIZE) + 1);
-	if (!(string))
-		return (NULL);
-	while (i < (len_s1))
-	{
-		string[i] = s1[i];
-		i++;
-	}
-	while (i < (len_s1 + lenbuff))
-	{
-		string[i++] = buff[j++];
-	}
-	string[i] = 0;
-	return (string);
-}
-
-char	*ft_clearfree(char *buffer, char *line)
+char	*ft_clearfree(char **buffer, char *line)
 {
-	ft_bzero(buffer, BUFFER_SIZE);
+	// ft_bzero(buffer, BUFFER_SIZE);
+	free(*buffer);
+	*buffer = NULL;
 	if (!line)
 		return (NULL);
 	free(line);
 	return (NULL);
 }
 
-char	*ft_read(int fd, char *line, char *buffer)
-{
-	int		i;
-	int		bytes_read;
-	char	*newline;
-
-	bytes_read = 1;
-	if (ft_strchr(buffer, '\n'))
-		bytes_read = 0;
-	while (bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < BUFFER_SIZE && bytes_read >= 0)
-		{
-			i = bytes_read;
-			while (i < BUFFER_SIZE)
-				buffer[i++] = 0;
-		}
-		newline = ft_strjoinbuff(line, buffer);
-		if (!newline || bytes_read == -1)
-			return (ft_clearfree(buffer, line));
-		free(line);
-		line = newline;
-		if (ft_strchr(line, '\n'))
-			break ;
-	}
-	return (line);
-}
 /*
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -135,5 +157,4 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_bzero(ptr, nmemb * size);
 	return (ptr);
 }
-NOTE: 
 */

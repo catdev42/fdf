@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 17:09:08 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 00:03:14 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:12:32 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	close_handler(t_fdf *fdf)
 	// mlx_destroy_display(fdf->mlx_connection);
 	// free(fdf->mlx_connection);
 	fdf_clean(fdf, 0);
-	printf("HELLO");
 	exit(EXIT_SUCCESS);
 }
 

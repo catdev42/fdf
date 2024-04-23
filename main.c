@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 00:08:16 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:13:46 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_fdf	fdf;
 	int		fd;
 
-	argv[1] = "./test_maps/simple.fdf";
+	// argv[1] = "./test_maps/simple.fdf";
 	if (argc != 2 && argc != 4)
 	{
 		ft_putstr_fd(ERROR_MESSAGE, 2);

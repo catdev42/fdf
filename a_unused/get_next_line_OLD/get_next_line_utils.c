@@ -6,11 +6,12 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 02:56:20 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 16:10:16 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:20:57 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+/* 
+#include "get_next_line.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -104,3 +105,4 @@ void	ft_bzero(void *s, size_t n)
 		p[i++] = '\0';
 	}
 }
+*/

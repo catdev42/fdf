@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:22:22 by myakoven          #+#    #+#             */
-/*   Updated: 2024/03/31 17:54:45 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:09:27 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,16 @@ static char			*ft_itoa_printf(int n);
 */
 /****GET_NEXT_LINE****/
 
-char				*get_next_line(int fd);
-char				*ft_read(int fd, char *line, char *buffer);
-char				*ft_strjoinbuff(char *s1, char const *buff);
-char				*ft_takeline(char *line, char *buffer);
-char				*ft_clearfree(char **buffer, char *line);
+char	*get_next_line(int fd);
+char	*ft_read(int fd, char *line, char *buffer);
+char	*ft_strjoinbuff(char *s1, char const *buff);
+char	*ft_takeline(char *line, char *buffer);
+char	*ft_clearfree(char *buffer, char *line);
+
+// char				*get_next_line(int fd);
+// char				*ft_read(int fd, char *line, char *buffer);
+// char				*ft_strjoinbuff(char *s1, char const *buff);
+// char				*ft_takeline(char *line, char *buffer);
+// char				*ft_clearfree(char **buffer, char *line);
 
 #endif
