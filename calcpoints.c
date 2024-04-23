@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:35:54 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/22 23:00:34 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:01:43 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	calculate_isometric(t_fdf *fdf)
 	int	i;
 
 	i = 0;
-	while (i < (fdf->x_len * fdf->y_len) && !fdf->points.iso_x[i])
+	while (i < (fdf->x_len * fdf->y_len))
 	{
 		fdf->points.iso_x[i] = (fdf->points.x[i] - fdf->points.y[i])
 			* cos(fdf->angle);
@@ -65,10 +65,12 @@ int	calculate_translation(t_fdf *fdf, t_points *points)
 	{
 		temp_x = ((points->iso_x[i] - points->orig_min) / (points->orig_max
 					- points->orig_min) * (points->target_max
-					- points->target_min) + points->target_min);
+					- points->target_min) * fdf->zoom + (points->target_min
+					- (points->target_min * (fdf->zoom - 1)) + fdf->shift_x));
 		temp_y = ((points->iso_y[i] - points->orig_min) / (points->orig_max
 					- points->orig_min) * (points->target_max
-					- points->target_min) + points->target_min);
+					- points->target_min) * fdf->zoom + (points->target_min
+					- (points->target_min * (fdf->zoom - 1)) + fdf->shift_y));
 		points->map_x[i] = (int)temp_x;
 		points->map_y[i] = (int)temp_y;
 		i++;

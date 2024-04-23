@@ -1,0 +1,87 @@
+Script started on 2024-04-23 18:10:37+02:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="155" LINES="32"]
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004h[0m[27m[24m[Jc4a6c10% [7m^[[27m[200~script terminal_activity_$(date "+%Y-%m-%d").txt[?1l>[?2004l
+zsh: bad pattern: ^[[200~script
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004h~ [0m[27m[24m[Jc4a6c10% [0m[27m[24m[Jc4a6c10% [0m[27m[24m[Jc4a6c10% [?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004h[7m./fdf ./test_maps/mars.fdf[27m[26D[27m.[27m/[27mf[27md[27mf[27m [27m.[27m/[27mt[27me[27ms[27mt[27m_[27mm[27ma[27mp[27ms[27m/[27mm[27ma[27mr[27ms[27m.[27mf[27md[27mfg./fdf ./test_maps/mars.fdf[26Dgd./fdf ./test_maps/mars.fdf[26Db./fdf ./test_maps/mars.fdf[26D ./fdf ./test_maps/mars.fdf[26D[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C.fdf .fdf .fdf .fdf j.fdfu.fdfl.fdfi.fdfa.fdf-./fdf ./test_maps/julia.fdf[27D-./fdf ./test_maps/julia.fdf[27Da./fdf ./test_maps/julia.fdf[27Dr./fdf ./test_maps/julia.fdf[27Dg./fdf ./test_maps/julia.fdf[27Ds./fdf ./test_maps/julia.fdf[27D ./fdf ./test_maps/julia.fdf[27D[?1l>[?2004l
+[35;1mGNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1[m
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from [32m./fdf[m...
+[?2004h(gdb) b[Kcatch signal SIGINT
+[?2004lCatchpoint 1 (signal SIGINT)
+[?2004h(gdb) run
+[?2004lStarting program: [32m/home/myakoven/Work/fdf_minilibX_personal/fdf[m ./test_maps/julia.fdf
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "[32m/lib/x86_64-linux-gnu/libthread_db.so.1[m".
+^C
+Catchpoint 1 (signal SIGINT), [33mft_strlen[m ([36ms[m=0x430037 "3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,"...) at [32mft_strlen.c[m:22
+22		[01;34mwhile[m [31m([ms[31m[[mi[31m])[m
+[?2004h[?2004l[?2004h(gdb) Quit
+[?2004l[?2004h(gdb) backtrace 
+[?2004l#0  [33mft_strlen[m (
+    [36ms[m=0x430037 "3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,"...) at [32mft_strlen.c[m:22
+#1  [34m0x00000000004046d9[m in [33mft_substr[m (
+    [36ms[m=0x430037 "3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,"..., [36mstart[m=0, [36mlen[m=10) at [32mft_substr.c[m:26
+#2  [34m0x00000000004042cb[m in [33mft_split[m (
+    [36ms[m=0x430037 "3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,0x830707 3,"..., [36mc[m=32 ' ') at [32mft_split.c[m:37
+#3  [34m0x0000000000403a87[m in [33mparse_line[m (
+    [36mdataline[m=0x42f1f0 " 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2,0x820505 2"..., [36mfdf[m=0x7fffffffdff0, [36mi[m=166500) at [32mparse.c[m:65
+#4  [34m0x00000000004039c1[m in [33mparse_data[m ([36mfd[m=4, [36mfdf[m=0x7fffffffdff0, [36mpoints[m=0x7fffffffe040) at [32mparse.c[m:46
+#5  [34m0x00000000004031af[m in [33mmain[m ([36margc[m=2, [36margv[m=0x7fffffffe218) at [32mmain.c[m:32
+[?2004h(gdb) q
+[?2004l[?2004hA debugging session is active.
+
+	Inferior 1 [process 118869] will be killed.
+
+Quit anyway? (y or n) y
+[?2004l[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004hgdb --args ./fdf ./test_maps/julia.fdf[38D[7m^[7m[[27m[200~script terminal_activity_$(date "+%Y-%m-%d").txt[55D[27mg[27mdb --args ./fdf ./test_maps/julia.fdf                 [17D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28Dg[P[27C [28D[P[27C [28D[?1l>[?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004hOOA./fdf ./test_maps/julia.fdf[27Dgdb --args ./fdf ./test_maps/julia.fdf[38D[7m^[7m[[27m[200~script terminal_activity_$(date "+%Y-%m-%d").txt[55D[27mg[27mdb --args ./fdf ./test_maps/julia.fdf                 [17D[38D[11P[27C           [11D[27DOA                         [25D./fdf ./test_maps/julia.fdfv./fdf ./test_maps/julia.fdf[27Dva./fdf ./test_maps/julia.fdf[27Dl./fdf ./test_maps/julia.fdf[27Dg./fdf ./test_maps/julia.fdf[27Dr./fdf ./test_maps/julia.fdf[27Di./fdf ./test_maps/julia.fdf[27Dn./fdf ./test_maps/julia.fdf[27Dt./fdf ./test_maps/julia.fdf[27D ./fdf ./test_maps/julia.fdf[27D[P[27C [28D[P[27C [28Dd./fdf ./test_maps/julia.fdf[27D ./fdf ./test_maps/julia.fdf[27D[?1l>[?2004l
+==120530== Memcheck, a memory error detector
+==120530== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==120530== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==120530== Command: ./fdf ./test_maps/julia.fdf
+==120530== 
+==120530== 
+==120530== HEAP SUMMARY:
+==120530==     in use at exit: 0 bytes in 0 blocks
+==120530==   total heap usage: 1,059,623 allocs, 1,059,623 frees, 195,324,067 bytes allocated
+==120530== 
+==120530== All heap blocks were freed -- no leaks are possible
+==120530== 
+==120530== For lists of detected and suppressed errors, rerun with: -s
+==120530== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004h[0m[27m[24m[Jc4a6c10% [0m[27m[24m[Jc4a6c10% valgrind ./fdf ./test_maps/julia.fdf[?1l>[?2004l
+==121277== Memcheck, a memory error detector
+==121277== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==121277== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==121277== Command: ./fdf ./test_maps/julia.fdf
+==121277== 
+==121277== 
+==121277== HEAP SUMMARY:
+==121277==     in use at exit: 0 bytes in 0 blocks
+==121277==   total heap usage: 1,059,771 allocs, 1,059,771 frees, 195,327,915 bytes allocated
+==121277== 
+==121277== All heap blocks were freed -- no leaks are possible
+==121277== 
+==121277== For lists of detected and suppressed errors, rerun with: -s
+==121277== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004hvalgrind ./fdf ./test_maps/julia.fdf[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28D[P[27C [28Dv[P[27C [28D[P[27C [28D[?1l>[?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004hmmake clean[?1l>[?2004l
+make[1]: Entering directory '/home/myakoven/Work/fdf_minilibX_personal/libft'
+rm -f ft_atoi.o ft_bzero.o ft_calloc.o ft_isalnum.o ft_isalpha.o ft_isascii.o ft_isdigit.o ft_isprint.o ft_itoa.o ft_memchr.o ft_memcmp.o ft_memcpy.o ft_memmove.o ft_memset.o ft_putchar_fd.o ft_putendl_fd.o ft_putnbr_fd.o ft_putstr_fd.o ft_split.o ft_strchr.o ft_strdup.o ft_striteri.o ft_strjoin.o ft_strlcat.o ft_strlcpy.o ft_strlen.o ft_strmapi.o ft_strncmp.o ft_strnstr.o ft_strrchr.o ft_strtrim.o ft_substr.o ft_tolower.o ft_toupper.o ft_freetab.o ft_lstadd_back.o ft_lstadd_front.o ft_lstclear.o ft_lstdelone.o ft_lstiter.o ft_lstlast.o ft_lstnew.o ft_lstsize.o ft_lstmap.o ./printf/ft_print_hex.o ./printf/ft_print_int.o ./printf/ft_print_uns.o ./printf/ft_printf_words.o ./printf/ft_printf.o ./get_next_line/get_next_line.o
+make[1]: Leaving directory '/home/myakoven/Work/fdf_minilibX_personal/libft'
+[1m[7m%[27m[1m[0m                                                                                                                                                           [0m[27m[24m[Jc4a6c10% [K[?1h=[?2004heexit[?1l>[?2004l
+
+Script done on 2024-04-23 18:19:58+02:00 [COMMAND_EXIT_CODE="0"]

@@ -12,9 +12,10 @@
 # include <unistd.h>
 
 // # define ERROR_MESSAGE "Please enter \n\t\"./fdf mapname\" or \n\t\"./fdf mapname <width> <height>\"\n"
-# define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <value_1> <value_2>\"\n"
+# define ERROR_MESSAGE "Please enter ./fdf test_maps/42.fdf\"\n"
 # define WIDTH 800
 # define HEIGHT 800
+# define BD 20
 
 typedef struct s_bres
 {
@@ -100,6 +101,7 @@ int				fdf_init(t_fdf *fdf);
 void			parse_data(int fd, t_fdf *fdf, t_points *points);
 int				calculate_isometric(t_fdf *fdf);
 
+/******calcpoints.c********/
 void			calc_min_max_iso(t_fdf *fdf);
 int				calculate_translation(t_fdf *fdf, t_points *points);
 
@@ -109,6 +111,7 @@ double			map(double unscaled_num, double original_min,
 int				ahextoi(const char *nptr);
 
 /******render.c********/
+void			render(t_bres *bres, t_fdf *fdf);
 void			render_lines(t_bres *bres, t_fdf *fdf);
 
 #endif

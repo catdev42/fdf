@@ -6,18 +6,19 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:36:40 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 16:13:46 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:19:18 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
+
+static void	clean_points(t_fdf *fdf);
 
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
 	int		fd;
 
-	// argv[1] = "./test_maps/simple.fdf";
 	if (argc != 2 && argc != 4)
 	{
 		ft_putstr_fd(ERROR_MESSAGE, 2);
@@ -29,34 +30,44 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 		return (fdf_clean(&fdf, 3));
 	parse_data(fd, &fdf, &fdf.points);
-	render_lines(&fdf.bres, &fdf);
+	render(&fdf.bres, &fdf);
 	close(fd);
 	mlx_loop(fdf.mlx_connection);
 	return (0);
 }
 
 /******CLEANING******/
+
+void	free_split(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
 static void	clean_points(t_fdf *fdf)
 {
 	if (!fdf)
 		return ;
-	// free(fdf->name);
-	// if (fdf->points.x)
-	free(fdf->points.x);
-	// if (fdf->points.y)
-	free(fdf->points.y);
-	// if (fdf->points.z)
-	free(fdf->points.z);
-	// if (fdf->points.iso_x)
-	free(fdf->points.iso_x);
-	// if (fdf->points.iso_y)
-	free(fdf->points.iso_y);
-	// if (fdf->points.map_x)
-	free(fdf->points.map_x);
-	// if (fdf->points.map_y)
-	free(fdf->points.map_y);
-	// if (fdf->points.color)
-	free(fdf->points.color);
+	if (fdf->points.x)
+		free(fdf->points.x);
+	if (fdf->points.y)
+		free(fdf->points.y);
+	if (fdf->points.z)
+		free(fdf->points.z);
+	if (fdf->points.iso_x)
+		free(fdf->points.iso_x);
+	if (fdf->points.iso_y)
+		free(fdf->points.iso_y);
+	if (fdf->points.map_x)
+		free(fdf->points.map_x);
+	if (fdf->points.map_y)
+		free(fdf->points.map_y);
+	if (fdf->points.color)
+		free(fdf->points.color);
 }
 
 int	fdf_clean(t_fdf *fdf, int err)
@@ -70,9 +81,7 @@ int	fdf_clean(t_fdf *fdf, int err)
 		mlx_destroy_display(fdf->mlx_connection);
 		free(fdf->mlx_connection);
 	}
-	// free(fdf->img.pixels_ptr);
-	// if (fdf)
-	if (1)
+	if (fdf)
 		clean_points(fdf);
 	if (err)
 	{
@@ -87,14 +96,4 @@ int	fdf_clean(t_fdf *fdf, int err)
 		exit(1);
 	}
 	return (0);
-}
-
-void	free_split(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
 }

@@ -6,14 +6,23 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:00:13 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/22 23:01:43 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:25:14 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/fdf.h"
 
+static void	put_zeros(t_fdf *fdf);
 static void	init_bres(t_bres *bres);
 static void	run_bres(t_bres *bres, t_image *img);
+
+void	render(t_bres *bres, t_fdf *fdf)
+{
+	put_zeros(fdf);
+	calculate_isometric(fdf);
+	calculate_translation(fdf, &fdf->points);
+	render_lines(bres, fdf);
+}
 
 void	render_lines(t_bres *bres, t_fdf *fdf)
 {
@@ -76,10 +85,8 @@ static void	run_bres(t_bres *bres, t_image *img)
 	while (x != bres->x2 || y != bres->y2)
 	{
 		offset = y * img->line_len + x * (img->bpp / 8);
-		if (x > 0 && y > 0 && x < WIDTH && y < HEIGHT)
-			// *(unsigned int *)(img->pixels_ptr + offset) = 0xffffff;
+		if (x > 0 + BD && y > 0 + BD && x < WIDTH - BD && y < HEIGHT - BD)
 			*(unsigned int *)(img->pixels_ptr + offset) = bres->color;
-
 		e2 = 2 * bres->err;
 		if (e2 > -bres->dy)
 		{
@@ -93,6 +100,18 @@ static void	run_bres(t_bres *bres, t_image *img)
 		}
 	}
 	bres->err = 0;
+}
+
+static void	put_zeros(t_fdf *fdf)
+{
+	int	i;
+
+	i = 0;
+	while (i < fdf->img.line_len * HEIGHT - 1)
+	{
+		fdf->img.pixels_ptr[i] = '0';
+		i++;
+	}
 }
 
 /*

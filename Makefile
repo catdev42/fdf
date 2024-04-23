@@ -6,7 +6,7 @@
 #    By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/17 15:27:14 by myakoven          #+#    #+#              #
-#    Updated: 2024/04/22 23:00:13 by myakoven         ###   ########.fr        #
+#    Updated: 2024/04/23 18:45:00 by myakoven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,13 +46,13 @@ runlibft:
 	$(MAKE) -C $(LIBDIR)
 
 runlibmlx:
+	@if [ ! -d "$(MLXDIR)" ]; then \
+		git clone https://github.com/42Paris/minilibx-linux.git; \
+	fi
 	$(MAKE) -C $(MLXDIR)
 
 $(NAME): runlibft runlibmlx $(OBJS) 
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-
-#	gcc -g *.c $(LIBFT) -Lminilibx-linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-# $(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
@@ -63,7 +63,7 @@ fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBDIR) fclean
 	make -C $(MLXDIR) clean
-
+	rm -rf $(MLXDIR)
 
 
 re: fclean all

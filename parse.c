@@ -6,7 +6,7 @@
 /*   By: myakoven <myakoven@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 22:14:17 by myakoven          #+#    #+#             */
-/*   Updated: 2024/04/23 00:12:53 by myakoven         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:24:24 by myakoven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_color(const char *single_map_item, int index, t_fdf *fdf);
 /*Malloc
  *Open File
  *Parse each line (function)
- *Get iso_x and iso_y (function)
+ *Get iso_x and iso_y nad map_x map_y (function)
  * */
 void	parse_data(int fd, t_fdf *fdf, t_points *points)
 {
@@ -46,8 +46,6 @@ void	parse_data(int fd, t_fdf *fdf, t_points *points)
 		index = parse_line(dataline, fdf, index);
 		free(dataline);
 	}
-	calculate_isometric(fdf);
-	calculate_translation(fdf, &fdf->points);
 }
 
 static int	parse_line(char *dataline, t_fdf *fdf, int i)
@@ -69,12 +67,11 @@ static int	parse_line(char *dataline, t_fdf *fdf, int i)
 	{
 		fdf->points.x[i] = x;
 		fdf->points.y[i] = y;
-		if (!get_color(alpha_dataline_split[x], i++, fdf))
+		if (!get_color(alpha_dataline_split[x++], i++, fdf))
 		{
 			free_split(alpha_dataline_split);
 			fdf_clean(fdf, 1);
 		}
-		x++;
 	}
 	free_split(alpha_dataline_split);
 	return (i);
